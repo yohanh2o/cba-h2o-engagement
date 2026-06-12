@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA × H2O.ai — Recruitment Tracker</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-h2o">H2O.ai</div>
+    <div class="logo-cba">× Commonwealth Bank</div>
+    <div class="logo-badge">⭐ Tier 0 Partner</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="index.html"       class="nav-item"><span>⬡</span> Overview</a>
+    <a href="use-cases.html"   class="nav-item"><span>⚡</span> Use Cases</a>
+    <a href="delivery.html"    class="nav-item"><span>📅</span> Delivery</a>
+    <a href="commercial.html"  class="nav-item"><span>💰</span> Commercial</a>
+    <a href="team.html"        class="nav-item"><span>👥</span> Team</a>
+    <a href="recruitment.html" class="nav-item active"><span>🎯</span> Recruitment</a>
+  </nav>
+  <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
+</aside>
+
+<main class="main-content">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Recruitment Tracker</h1>
+      <p class="page-subtitle">15 open headcount — FY27 Delivery Team Build-out</p>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-live">● Live</span>
+      <span class="badge badge-fy">FY27</span>
+      <span class="badge badge-status">SOW Execution</span>
+    </div>
+  </header>
+
+  <!-- KPI CARDS -->
+  <section class="kpi-grid" id="kpiGrid" style="grid-template-columns:repeat(6,1fr)">
+    <div class="kpi-card">
+      <div class="kpi-icon">🎯</div>
+      <div class="kpi-value" id="kpiTotal">15</div>
+      <div class="kpi-label">Total Roles</div>
+      <div class="kpi-sub">FY27 hiring plan</div>
+    </div>
+    <div class="kpi-card" style="border-color:#ef4444">
+      <div class="kpi-icon" style="background:rgba(239,68,68,.15)">🔴</div>
+      <div class="kpi-value" id="kpiOpen" style="color:#ef4444">—</div>
+      <div class="kpi-label">Open</div>
+      <div class="kpi-sub">Not yet started</div>
+    </div>
+    <div class="kpi-card" style="border-color:#f59e0b">
+      <div class="kpi-icon" style="background:rgba(245,158,11,.15)">🟡</div>
+      <div class="kpi-value" id="kpiInProgress" style="color:#f59e0b">—</div>
+      <div class="kpi-label">In Progress</div>
+      <div class="kpi-sub">Screening / interviews</div>
+    </div>
+    <div class="kpi-card" style="border-color:#22c55e">
+      <div class="kpi-icon" style="background:rgba(34,197,94,.15)">✅</div>
+      <div class="kpi-value" id="kpiFilled" style="color:#22c55e">—</div>
+      <div class="kpi-label">Filled</div>
+      <div class="kpi-sub">Hired / onboarded</div>
+    </div>
+    <div class="kpi-card" style="border-color:#ef4444">
+      <div class="kpi-icon" style="background:rgba(239,68,68,.15)">🚨</div>
+      <div class="kpi-value" id="kpiCritical" style="color:#ef4444">4</div>
+      <div class="kpi-label">Critical</div>
+      <div class="kpi-sub">Blocks delivery</div>
+    </div>
+    <div class="kpi-card" style="border-color:#0073ff">
+      <div class="kpi-icon" style="background:rgba(0,115,255,.15)">📍</div>
+      <div class="kpi-value" style="color:#0073ff">Sydney</div>
+      <div class="kpi-label">Primary Hub</div>
+      <div class="kpi-sub">+ Offshore elastic</div>
+    </div>
+  </section>
+
+  <!-- CHARTS ROW -->
+  <div class="two-col-grid" style="grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">📊</span>
+        <div>
+          <div class="card-title">Roles by Type</div>
+          <div class="card-sub">15 open positions breakdown</div>
+        </div>
+      </div>
+      <div style="height:200px;position:relative"><canvas id="roleTypeChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🚦</span>
+        <div>
+          <div class="card-title">Status Overview</div>
+          <div class="card-sub">Click any row below to cycle status</div>
+        </div>
+      </div>
+      <div style="height:200px;position:relative"><canvas id="statusChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ROLE SUMMARY PILLS -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <span class="card-icon">🏷️</span>
+      <div><div class="card-title">Role Type Summary</div><div class="card-sub">From Resourcing V1 — columns F, G, H, I + specialist roles</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;padding:4px 0">
+      <div class="type-pill type-delivery_lead">
+        <span class="type-count" id="countDL">2</span>
+        <span>Delivery Leads</span>
+      </div>
+      <div class="type-pill type-tech_lead">
+        <span class="type-count" id="countTL">2</span>
+        <span>Tech Leads (FDE)</span>
+      </div>
+      <div class="type-pill type-ai_engineer">
+        <span class="type-count" id="countENG">4</span>
+        <span>AI Engineers (FDE)</span>
+      </div>
+      <div class="type-pill type-data_scientist">
+        <span class="type-count" id="countDS">2</span>
+        <span>Data Scientists (FDE)</span>
+      </div>
+      <div class="type-pill type-devops">
+        <span class="type-count" id="countDEV">2</span>
+        <span>DevOps Engineers</span>
+      </div>
+      <div class="type-pill type-full_stack">
+        <span class="type-count" id="countFSE">3</span>
+        <span>Full Stack Engineers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <span style="color:var(--text-muted);font-size:13px;font-weight:600">FILTER:</span>
+      <select id="filterType" class="filter-select" onchange="renderTable()">
+        <option value="">All Types</option>
+        <option value="delivery_lead">Delivery Lead</option>
+        <option value="tech_lead">Tech Lead</option>
+        <option value="ai_engineer">AI Engineer</option>
+        <option value="data_scientist">Data Scientist</option>
+        <option value="devops">DevOps</option>
+        <option value="full_stack">Full Stack</option>
+      </select>
+      <select id="filterPriority" class="filter-select" onchange="renderTable()">
+        <option value="">All Priorities</option>
+        <option value="critical">Critical</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+      </select>
+      <select id="filterStatus" class="filter-select" onchange="renderTable()">
+        <option value="">All Statuses</option>
+        <option value="open">Open</option>
+        <option value="in_progress">In Progress</option>
+        <option value="filled">Filled</option>
+      </select>
+      <button class="btn btn-ghost" onclick="resetFilters()" style="font-size:12px;padding:5px 12px">Reset</button>
+      <span style="margin-left:auto;color:var(--text-muted);font-size:12px">Click a <strong style="color:var(--text-primary)">Status</strong> cell to update it</span>
+    </div>
+  </div>
+
+  <!-- RECRUITMENT TABLE -->
+  <div class="card" style="padding:0">
+    <table class="data-table" id="recruitTable">
+      <thead>
+        <tr>
+          <th style="width:60px">ID</th>
+          <th style="width:100px">TBH Ref</th>
+          <th>Role Title</th>
+          <th style="width:130px">Type</th>
+          <th style="width:90px">Column</th>
+          <th>Assigned Use Case</th>
+          <th style="width:90px">Location</th>
+          <th style="width:90px">Priority</th>
+          <th style="width:120px">Status</th>
+          <th style="width:160px">Notes</th>
+        </tr>
+      </thead>
+      <tbody id="recruitTableBody">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BY USE CASE VIEW -->
+  <div class="card" style="margin-top:16px">
+    <div class="card-header">
+      <span class="card-icon">📋</span>
+      <div><div class="card-title">Hiring by Use Case</div><div class="card-sub">Roles required per active project</div></div>
+    </div>
+    <div id="byUCView"></div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="card" style="margin-top:12px;padding:12px 20px">
+    <div style="display:flex;flex-wrap:wrap;gap:24px;font-size:12px;color:var(--text-muted)">
+      <span><strong>Column F</strong> = Delivery Lead FDE</span>
+      <span><strong>Column G</strong> = Tech Lead FDE</span>
+      <span><strong>Column H</strong> = FDE AI Engineer</span>
+      <span><strong>Column I</strong> = FDE AI Scientist</span>
+      <span>Source: Resourcing V1 — red cells in columns F–I + 15-Hirings summary</span>
+    </div>
+  </div>
+</main>
+
+<style>
+.type-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+}
+.type-count {
+  font-size: 16px; font-weight: 800; min-width: 20px; text-align: center;
+}
+.type-pill.type-delivery_lead { background: rgba(239,68,68,.12); color: #ef4444; border: 1px solid rgba(239,68,68,.3); }
+.type-pill.type-tech_lead     { background: rgba(245,158,11,.12); color: #f59e0b; border: 1px solid rgba(245,158,11,.3); }
+.type-pill.type-ai_engineer   { background: rgba(0,115,255,.12);  color: #0073ff; border: 1px solid rgba(0,115,255,.3); }
+.type-pill.type-data_scientist{ background: rgba(139,92,246,.12); color: #8b5cf6; border: 1px solid rgba(139,92,246,.3); }
+.type-pill.type-devops        { background: rgba(34,197,94,.12);  color: #22c55e; border: 1px solid rgba(34,197,94,.3); }
+.type-pill.type-full_stack    { background: rgba(20,184,166,.12); color: #14b8a6; border: 1px solid rgba(20,184,166,.3); }
+
+.filter-select {
+  background: var(--bg-card); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 10px; font-size: 13px; cursor: pointer;
+}
+.status-cell {
+  cursor: pointer; user-select: none; border-radius: 6px;
+  padding: 3px 8px; font-size: 11px; font-weight: 700;
+  display: inline-block; min-width: 90px; text-align: center;
+  transition: opacity .15s;
+}
+.status-cell:hover { opacity: .8; }
+.status-open       { background: rgba(239,68,68,.15); color: #ef4444; border: 1px solid rgba(239,68,68,.4); }
+.status-in_progress{ background: rgba(245,158,11,.15); color: #f59e0b; border: 1px solid rgba(245,158,11,.4); }
+.status-filled     { background: rgba(34,197,94,.15);  color: #22c55e; border: 1px solid rgba(34,197,94,.4); }
+
+.priority-critical { color: #ef4444; font-weight: 700; }
+.priority-high     { color: #f59e0b; font-weight: 600; }
+.priority-medium   { color: #94a3b8; }
+
+.uc-hire-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.uc-hire-row:last-child { border-bottom: none; }
+.uc-hire-name { flex: 1; font-size: 13px; color: var(--text-primary); }
+.uc-hire-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.notes-input {
+  background: transparent; border: none; border-bottom: 1px dashed var(--border);
+  color: var(--text-primary); font-size: 12px; width: 140px; outline: none;
+  padding: 2px 4px;
+}
+.notes-input:focus { border-bottom-color: var(--h2o-blue); }
+</style>
+
+<script src="js/data.js"></script>
+<script>
+// ── State: persist statuses + notes in localStorage ──────────────────────
+const STORAGE_KEY = 'cba_recruitment_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+}
+
+// Merge persisted status/notes into roles
+function getRoles() {
+  const state = loadState();
+  return CBA_DATA.recruitment.roles.map(r => ({
+    ...r,
+    status: state[r.id]?.status || r.status,
+    notes:  state[r.id]?.notes  || '',
+  }));
+}
+
+function cycleStatus(id) {
+  const cycle = ['open', 'in_progress', 'filled'];
+  const state = loadState();
+  const current = state[id]?.status || 'open';
+  const next = cycle[(cycle.indexOf(current) + 1) % cycle.length];
+  state[id] = { ...(state[id] || {}), status: next };
+  saveState(state);
+  renderAll();
+}
+
+function saveNote(id, value) {
+  const state = loadState();
+  state[id] = { ...(state[id] || {}), notes: value };
+  saveState(state);
+}
+
+// ── KPI cards ─────────────────────────────────────────────────────────────
+function updateKPIs() {
+  const roles = getRoles();
+  const open       = roles.filter(r => r.status === 'open').length;
+  const inProgress = roles.filter(r => r.status === 'in_progress').length;
+  const filled     = roles.filter(r => r.status === 'filled').length;
+  const critical   = roles.filter(r => r.priority === 'critical' && r.status !== 'filled').length;
+
+  document.getElementById('kpiOpen').textContent       = open;
+  document.getElementById('kpiInProgress').textContent = inProgress;
+  document.getElementById('kpiFilled').textContent     = filled;
+  document.getElementById('kpiCritical').textContent   = critical;
+}
+
+// ── Charts ────────────────────────────────────────────────────────────────
+let roleTypeChartInst = null;
+let statusChartInst   = null;
+
+function renderCharts() {
+  const roles = getRoles();
+
+  // Role type distribution
+  const typeLabels = ['Delivery Lead','Tech Lead','AI Engineer','Data Scientist','DevOps','Full Stack'];
+  const typeKeys   = ['delivery_lead','tech_lead','ai_engineer','data_scientist','devops','full_stack'];
+  const typeColors = ['#ef4444','#f59e0b','#0073ff','#8b5cf6','#22c55e','#14b8a6'];
+  const typeCounts = typeKeys.map(k => roles.filter(r => r.type === k).length);
+
+  const rtCtx = document.getElementById('roleTypeChart').getContext('2d');
+  if (roleTypeChartInst) roleTypeChartInst.destroy();
+  roleTypeChartInst = new Chart(rtCtx, {
+    type: 'doughnut',
+    data: { labels: typeLabels, datasets: [{ data: typeCounts, backgroundColor: typeColors, borderWidth: 0 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 12 } }
+      }
+    }
+  });
+
+  // Status chart
+  const open       = roles.filter(r => r.status === 'open').length;
+  const inProgress = roles.filter(r => r.status === 'in_progress').length;
+  const filled     = roles.filter(r => r.status === 'filled').length;
+
+  const sCtx = document.getElementById('statusChart').getContext('2d');
+  if (statusChartInst) statusChartInst.destroy();
+  statusChartInst = new Chart(sCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Open', 'In Progress', 'Filled'],
+      datasets: [{
+        data: [open, inProgress, filled],
+        backgroundColor: ['rgba(239,68,68,.6)','rgba(245,158,11,.6)','rgba(34,197,94,.6)'],
+        borderColor:     ['#ef4444','#f59e0b','#22c55e'],
+        borderWidth: 1, borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,.05)' } },
+        y: { ticks: { color: '#94a3b8', stepSize: 1 }, grid: { color: 'rgba(255,255,255,.05)' }, min: 0, max: 15 }
+      }
+    }
+  });
+}
+
+// ── Table ─────────────────────────────────────────────────────────────────
+const typeLabel = {
+  delivery_lead: 'Delivery Lead', tech_lead: 'Tech Lead',
+  ai_engineer: 'AI Engineer', data_scientist: 'Data Scientist',
+  devops: 'DevOps', full_stack: 'Full Stack',
+};
+
+function renderTable() {
+  const typeFilter     = document.getElementById('filterType').value;
+  const priorityFilter = document.getElementById('filterPriority').value;
+  const statusFilter   = document.getElementById('filterStatus').value;
+  const roles = getRoles().filter(r =>
+    (!typeFilter     || r.type     === typeFilter) &&
+    (!priorityFilter || r.priority === priorityFilter) &&
+    (!statusFilter   || r.status   === statusFilter)
+  );
+
+  const tbody = document.getElementById('recruitTableBody');
+  tbody.innerHTML = roles.map(r => `
+    <tr>
+      <td><code style="font-size:11px;color:var(--h2o-blue)">${r.id}</code></td>
+      <td style="font-size:12px;color:var(--text-muted)">${r.tbhRef || r.thhRef || r.tbbRef || '—'}</td>
+      <td style="font-weight:600;color:var(--text-primary)">${r.title}</td>
+      <td><span class="type-pill type-${r.type}" style="padding:3px 10px;font-size:11px">${typeLabel[r.type]}</span></td>
+      <td style="font-size:11px;color:var(--text-muted)">${r.roleCol}</td>
+      <td style="font-size:12px;color:var(--text-secondary);max-width:200px">${r.ucName}</td>
+      <td style="font-size:12px;color:var(--text-muted)">${r.location}</td>
+      <td class="priority-${r.priority}" style="font-size:12px;text-transform:capitalize">${r.priority}</td>
+      <td>
+        <span class="status-cell status-${r.status}" onclick="cycleStatus('${r.id}')">
+          ${r.status === 'open' ? '⭕ Open' : r.status === 'in_progress' ? '🟡 In Progress' : '✅ Filled'}
+        </span>
+      </td>
+      <td>
+        <input class="notes-input" type="text" value="${r.notes || ''}"
+          placeholder="Add note…"
+          onblur="saveNote('${r.id}', this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()">
+      </td>
+    </tr>
+  `).join('');
+}
+
+function resetFilters() {
+  document.getElementById('filterType').value     = '';
+  document.getElementById('filterPriority').value = '';
+  document.getElementById('filterStatus').value   = '';
+  renderTable();
+}
+
+// ── By Use Case view ──────────────────────────────────────────────────────
+function renderByUC() {
+  const roles = getRoles();
+  const ucMap = {};
+  roles.forEach(r => {
+    const key = r.ucName;
+    if (!ucMap[key]) ucMap[key] = { ucId: r.ucId, roles: [] };
+    ucMap[key].roles.push(r);
+  });
+
+  const container = document.getElementById('byUCView');
+  container.innerHTML = Object.entries(ucMap).map(([ucName, data]) => {
+    const badges = data.roles.map(r =>
+      `<span class="type-pill type-${r.type}" style="padding:2px 8px;font-size:11px">
+        ${r.title} <span class="status-cell status-${r.status}" style="padding:1px 6px;font-size:10px;margin-left:4px">
+          ${r.status === 'open' ? '⭕' : r.status === 'in_progress' ? '🟡' : '✅'}
+        </span>
+      </span>`
+    ).join('');
+    return `
+      <div class="uc-hire-row">
+        <div class="uc-hire-name"><strong>${ucName}</strong></div>
+        <div class="uc-hire-badges">${badges}</div>
+        <div style="font-size:12px;color:var(--text-muted);min-width:60px;text-align:right">${data.roles.length} role${data.roles.length>1?'s':''}</div>
+      </div>`;
+  }).join('');
+}
+
+// ── Main render ───────────────────────────────────────────────────────────
+function renderAll() {
+  updateKPIs();
+  renderCharts();
+  renderTable();
+  renderByUC();
+}
+
+document.addEventListener('DOMContentLoaded', renderAll);
+</script>
+</body>
+</html>
