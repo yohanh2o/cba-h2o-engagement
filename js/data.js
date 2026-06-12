@@ -529,6 +529,37 @@ const CBA_DATA = {
     { role: "DevOps",                  count: 0,  tbd: 2,  cost_usd_m: null },
   ],
 
+  // ── RECRUITMENT TRACKER ────────────────────────────────────────────────
+  // Source: Resourcing V1 — columns F (Delivery Lead), G (Tech Lead),
+  //         H (FDE AI Engineer), I (FDE AI Scientist) — all TBH entries
+  //         plus DevOps and Full Stack from the 15-Hirings summary box.
+  recruitment: {
+    summary: { total: 15, delivery_leads: 2, tech_leads: 2, ai_engineers: 4, data_scientists: 2, devops: 2, full_stack: 3 },
+    roles: [
+      // ── Delivery Leads ────────────────────────────────────────────────
+      { id: "DL-1",  tbhRef: "Delivery Lead 1", title: "Delivery Lead",     type: "delivery_lead",  roleCol: "Delivery Lead (F)", location: "Sydney",             ucId: 1,  ucName: "SLM Factory — Core Capability Build",       priority: "critical", status: "open" },
+      { id: "DL-2",  tbhRef: "Delivery Lead 2", title: "Delivery Lead",     type: "delivery_lead",  roleCol: "Delivery Lead (F)", location: "Sydney",             ucId: 8,  ucName: "BB Predictive Models Uplift",                priority: "critical", status: "open" },
+      // ── Tech Leads ───────────────────────────────────────────────────
+      { id: "TL-1",  tbhRef: "TBH-1 (Syd)",    title: "Tech Lead FDE",     type: "tech_lead",      roleCol: "Tech Lead (G)",     location: "Sydney",             ucId: 3,  ucName: "BB SLM — Document Classification",           priority: "high",     status: "open" },
+      { id: "TL-2",  thhRef: "TBH-1 (Syd)",    title: "Tech Lead FDE",     type: "tech_lead",      roleCol: "Tech Lead (G)",     location: "Sydney",             ucId: 13, ucName: "MLOps Revamp",                               priority: "high",     status: "open" },
+      // ── AI Engineers (FDE) ───────────────────────────────────────────
+      { id: "ENG-1", tbbRef: "TBH-2 (Syd)",    title: "FDE AI Engineer",   type: "ai_engineer",    roleCol: "AI Engineer (H)",   location: "Sydney",             ucId: 3,  ucName: "BB SLM — Document Classification",           priority: "high",     status: "open" },
+      { id: "ENG-2", tbbRef: "TBH-3 (Syd)",    title: "FDE AI Engineer",   type: "ai_engineer",    roleCol: "AI Engineer (H)",   location: "Sydney",             ucId: 3,  ucName: "BB SLM — Document Classification",           priority: "high",     status: "open" },
+      { id: "ENG-3", tbbRef: "TBH-7 (Syd)",    title: "FDE AI Engineer",   type: "ai_engineer",    roleCol: "AI Engineer (H)",   location: "Sydney",             ucId: 12, ucName: "COO Fraud Detection — UC1 (Auto Model Train)", priority: "medium",   status: "open" },
+      { id: "ENG-4", tbbRef: "TBH-8 (Syd)",    title: "FDE AI Engineer",   type: "ai_engineer",    roleCol: "AI Engineer (H)",   location: "Sydney",             ucId: 12, ucName: "COO Fraud Detection — UC3 (Infra Efficiency)", priority: "medium",   status: "open" },
+      // ── Data Scientists (FDE) ────────────────────────────────────────
+      { id: "DS-1",  tbbRef: "TBH-4 (Syd)",    title: "FDE Data Scientist", type: "data_scientist", roleCol: "AI Scientist (I)",  location: "Sydney",             ucId: 1,  ucName: "SLM Factory — Core Capability Build",       priority: "critical", status: "open" },
+      { id: "DS-2",  tbbRef: "TBH-5 (Syd)",    title: "FDE Data Scientist", type: "data_scientist", roleCol: "AI Scientist (I)",  location: "Sydney",             ucId: 7,  ucName: "IB&M Predictive Hedging Foundation Model",  priority: "high",     status: "open" },
+      // ── DevOps ───────────────────────────────────────────────────────
+      { id: "DEV-1", tbbRef: "TBH-11 (DevOps)", title: "DevOps Engineer",   type: "devops",         roleCol: "Specialist",        location: "Sydney",             ucId: null, ucName: "Platform / General Infra",                priority: "high",     status: "open" },
+      { id: "DEV-2", tbbRef: "TBH-12 (DevOps)", title: "DevOps Engineer",   type: "devops",         roleCol: "Specialist",        location: "Sydney",             ucId: 13, ucName: "MLOps Revamp + General Infra",               priority: "high",     status: "open" },
+      // ── Full Stack Engineers (Product / KGM team) ────────────────────
+      { id: "FSE-1", tbbRef: "Full Stack 1",    title: "Full Stack Engineer", type: "full_stack",   roleCol: "Product Eng",       location: "Sydney / Offshore",  ucId: 1,  ucName: "SLM Factory — Product Engineering Support", priority: "medium",   status: "open" },
+      { id: "FSE-2", tbbRef: "Full Stack 2",    title: "Full Stack Engineer", type: "full_stack",   roleCol: "Product Eng",       location: "Sydney / Offshore",  ucId: 1,  ucName: "SLM Factory — Product Engineering Support", priority: "medium",   status: "open" },
+      { id: "FSE-3", tbbRef: "Full Stack 3",    title: "Full Stack Engineer", type: "full_stack",   roleCol: "Product Eng",       location: "Sydney / Offshore",  ucId: 7,  ucName: "IB&M — Product Engineering Support",        priority: "medium",   status: "open" },
+    ],
+  },
+
   // ── OPEN ACTION ITEMS ─────────────────────────────────────────────────
   actions: [
     { id:1,  area:"Commercial", priority:"high",   item:"Cost breakdown per use case — distinguish license, customisation, PS, platform, maintenance" },
