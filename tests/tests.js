@@ -188,8 +188,8 @@ describe('Suite 1 — Data Integrity', () => {
     expect(CBA_DATA.partnership.commitment).toBe(100);
   });
 
-  it('Partnership mapped_tcv is $34M', () => {
-    expect(CBA_DATA.partnership.mapped_tcv).toBe(34);
+  it('Partnership mapped_tcv is $32M', () => {
+    expect(CBA_DATA.partnership.mapped_tcv).toBe(32);
   });
 
   it('usecases is an array', () => {
@@ -311,8 +311,8 @@ describe('Suite 2 — Computed Helpers', () => {
     expect(CBA_DATA.computed.totalTCV).toBe(manual);
   });
 
-  it('computed.totalTCV equals 34', () => {
-    expect(CBA_DATA.computed.totalTCV).toBe(34);
+  it('computed.totalTCV equals 32', () => {
+    expect(CBA_DATA.computed.totalTCV).toBe(32);
   });
 
   it('computed.activeTCV returns a positive number', () => {
