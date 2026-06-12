@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA × H2O.ai — Delivery Plan</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-h2o">H2O.ai</div>
+    <div class="logo-cba">× Commonwealth Bank</div>
+    <div class="tier-badge">★ Tier 0 Partner</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="index.html"      class="nav-item"><span>⬡</span> Overview</a>
+    <a href="use-cases.html"  class="nav-item"><span>⚡</span> Use Cases</a>
+    <a href="delivery.html"   class="nav-item active"><span>📅</span> Delivery</a>
+    <a href="commercial.html" class="nav-item"><span>💰</span> Commercial</a>
+    <a href="team.html"       class="nav-item"><span>👥</span> Team</a>
+  </nav>
+  <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <header class="page-header">
+    <h1>Delivery Plan — FY27</h1>
+    <div class="header-right">
+      <span class="badge badge-blue">Jul 2026 – Jun 2027</span>
+      <span class="badge badge-green">12 Projects Active</span>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- KPI STRIP -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px">
+      <div class="kpi-card" style="--accent-color:var(--h2o-blue)">
+        <div class="kpi-label">Programme Duration</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">Months (FY27)</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--green)">
+        <div class="kpi-label">Projects Running</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">Concurrent active</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--amber)">
+        <div class="kpi-label">Handovers by Jun '27</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">Production handovers</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--purple)">
+        <div class="kpi-label">Platform Dependency</div>
+        <div class="kpi-value">HAIC</div>
+        <div class="kpi-sub">26.04.0 Release</div>
+      </div>
+    </div>
+
+    <!-- GANTT CHART -->
+    <div class="card mb-24">
+      <div class="card-header" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:14px">📅</span>
+          <div>
+            <div class="section-title">Consolidated Delivery Timeline</div>
+            <div class="section-subtitle">12 active projects — Jul 2026 to Jun 2027</div>
+          </div>
+        </div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-swatch" style="background:#a78bfa;border:1px solid rgba(139,92,246,0.4)"></div>A&D / Discovery</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#60a5fa;border:1px solid rgba(0,115,255,0.4)"></div>Build</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#fbbf24;border:1px solid rgba(245,158,11,0.4)"></div>Benchmarking</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#4ade80;border:1px solid rgba(34,197,94,0.4)"></div>Prod Handover</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#9ca3af;border:1px solid rgba(107,114,128,0.4)"></div>Maintenance</div>
+        </div>
+      </div>
+      <div class="gantt-container" style="border:none;border-radius:0">
+        <div id="gantt-wrapper" style="overflow-x:auto;padding:0 0 8px"></div>
+      </div>
+    </div>
+
+    <!-- PHASE DEFINITIONS -->
+    <div class="grid-2 mb-24">
+      <div class="card">
+        <div class="card-header">
+          <span style="font-size:14px">📖</span>
+          <div class="section-title">Phase Definitions</div>
+        </div>
+        <div>
+          <div class="action-item">
+            <div style="width:10px;height:10px;border-radius:2px;background:#a78bfa;flex-shrink:0;margin-top:4px"></div>
+            <div>
+              <div class="action-text font-bold">A&D — Analysis, Design & Discovery</div>
+              <div class="action-area">Requirements gathering, technical deep dives, data assessment, solution architecture, and stakeholder alignment. Ends with confirmed SOW scope.</div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div style="width:10px;height:10px;border-radius:2px;background:#60a5fa;flex-shrink:0;margin-top:4px"></div>
+            <div>
+              <div class="action-text font-bold">Build — Development, Testing & Validation</div>
+              <div class="action-area">Iterative model development, feature engineering, labelling, training, test harness creation, and business validation cycles.</div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div style="width:10px;height:10px;border-radius:2px;background:#fbbf24;flex-shrink:0;margin-top:4px"></div>
+            <div>
+              <div class="action-text font-bold">Benchmarking — Performance Evaluation</div>
+              <div class="action-area">Accuracy assessment, business validation against agreed success metrics, load/latency testing, and stakeholder sign-off on model performance.</div>
+            </div>
+          </div>
+          <div class="action-item">
+            <div style="width:10px;height:10px;border-radius:2px;background:#4ade80;flex-shrink:0;margin-top:4px"></div>
+            <div>
+              <div class="action-text font-bold">Prod Handover — Production Transition</div>
+              <div class="action-area">Knowledge transfer, deployment artifacts, operational runbooks, monitoring setup, and CBA team go-live readiness confirmation.</div>
+            </div>
+          </div>
+          <div class="action-item" style="border:none">
+            <div style="width:10px;height:10px;border-radius:2px;background:#9ca3af;flex-shrink:0;margin-top:4px"></div>
+            <div>
+              <div class="action-text font-bold">Post Maintenance</div>
+              <div class="action-area">Model monitoring, drift detection, re-training cycles, performance reports, and ongoing advisory support under the 20% maintenance fee structure.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MILESTONE TABLE -->
+      <div class="card">
+        <div class="card-header">
+          <span style="font-size:14px">🏁</span>
+          <div class="section-title">Key Milestones FY27</div>
+        </div>
+        <div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Milestone</th>
+                <th>Projects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="text-amber font-bold">Jul '26</td><td>All projects kick off — A&D phase begins</td><td style="font-size:11px">12</td></tr>
+              <tr><td>Aug '26</td><td>HAIC 26.04.0 Release (SLM dependency)</td><td style="font-size:11px">—</td></tr>
+              <tr><td>Sep '26</td><td>Build phase in full swing across all tracks</td><td style="font-size:11px">12</td></tr>
+              <tr><td>Oct '26</td><td>First Benchmarking: BB Predictive, HB Insurance, FS</td><td style="font-size:11px">3</td></tr>
+              <tr><td class="text-green">Nov '26</td><td>First Prod Handovers: BB Pred., Home Buying, FS</td><td style="font-size:11px">3</td></tr>
+              <tr><td>Dec '26</td><td>Existing $7.9M platform commitment renewal</td><td style="font-size:11px">—</td></tr>
+              <tr><td>Jan '27</td><td>SLM benchmarking begins (Factory + 5 SLMs)</td><td style="font-size:11px">6</td></tr>
+              <tr><td>Feb '27</td><td>SLM factory handover (Tranche 1)</td><td style="font-size:11px">3</td></tr>
+              <tr><td>Mar '27</td><td>SLM Factory, IB&M, Txn Intelligence benchmarking</td><td style="font-size:11px">3</td></tr>
+              <tr><td class="text-green font-bold">Apr–Jun '27</td><td>Major prod handovers: SLM Factory, IB&M, Txn Intel</td><td style="font-size:11px">9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELIVERY RISK -->
+    <div class="card">
+      <div class="card-header">
+        <span style="font-size:14px">⚠️</span>
+        <div>
+          <div class="section-title">Key Delivery Dependencies & Risks</div>
+          <div class="section-subtitle">Blockers that could impact the FY27 plan</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
+        <div style="padding:16px 20px;border-right:1px solid var(--border)">
+          <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">🔴 Critical</div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--red)"></div>
+            <div class="action-text" style="font-size:12px">HAIC 26.04.0 Release — all 6 SLM use cases blocked until live</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--red)"></div>
+            <div class="action-text" style="font-size:12px">CBA data access provisioning — SAP / source system connectors for FS Forecasting</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border:none">
+            <div class="action-priority-dot" style="background:var(--red)"></div>
+            <div class="action-text" style="font-size:12px">Txn Intelligence — vendor permitted use, privacy / PIA approvals outstanding</div>
+          </div>
+        </div>
+        <div style="padding:16px 20px;border-right:1px solid var(--border)">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">🟡 Medium</div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--amber)"></div>
+            <div class="action-text" style="font-size:12px">IB&M: TabH2O-F time series extension still in experimental stage</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--amber)"></div>
+            <div class="action-text" style="font-size:12px">BB Predictive: data split across GDW and Omnia — no cross-movement</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border:none">
+            <div class="action-priority-dot" style="background:var(--amber)"></div>
+            <div class="action-text" style="font-size:12px">Home Buying: competitor premium detection requires Custom & Personal data approval</div>
+          </div>
+        </div>
+        <div style="padding:16px 20px">
+          <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">🟢 Managed</div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--green)"></div>
+            <div class="action-text" style="font-size:12px">MLOps dependency: Leandro's team has already optimised the 5% MLOps layer</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border-bottom:1px solid var(--border-light)">
+            <div class="action-priority-dot" style="background:var(--green)"></div>
+            <div class="action-text" style="font-size:12px">BB Compliance SLM: ~10k traces available from 4-month pilot to start fine-tuning</div>
+          </div>
+          <div class="action-item" style="padding:8px 0;border:none">
+            <div class="action-priority-dot" style="background:var(--green)"></div>
+            <div class="action-text" style="font-size:12px">KGMs onboarded: Eu Jin, Mark, Pascal, Ishan all engaged and onboarded to CBA env</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal"><div id="modal-body-content"></div></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script>
+'use strict';
+
+const MONTHS = CBA_DATA.timeline.months;  // 12 months
+const COL_PX = 68;   // pixels per month column
+const LABEL_PX = 190; // pixels for project name column
+
+function renderGantt() {
+  const wrapper = document.getElementById('gantt-wrapper');
+  const totalW = LABEL_PX + COL_PX * 12;
+
+  let html = `<table style="width:${totalW}px;border-collapse:collapse;min-width:${totalW}px">`;
+
+  // Header row
+  html += '<thead><tr>';
+  html += `<th style="width:${LABEL_PX}px;min-width:${LABEL_PX}px;text-align:left;padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-secondary);border-bottom:1px solid var(--border);background:var(--bg-card)">Project</th>`;
+  MONTHS.forEach((m, i) => {
+    // Highlight current month marker (Jul'26 = index 0, we are at Jun'26 so about to start)
+    html += `<th style="width:${COL_PX}px;text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-secondary);padding:10px 2px;border-bottom:1px solid var(--border);background:var(--bg-card)">${m}</th>`;
+  });
+  html += '</tr></thead>';
+
+  // Body rows
+  html += '<tbody>';
+  CBA_DATA.timeline.projects.forEach((proj, rowIdx) => {
+    const uc = CBA_DATA.computed.ucById(proj.id);
+    const statusColor = uc ? { green: '#22c55e', amber: '#f59e0b', red: '#ef4444' }[uc.status] : '#30363d';
+
+    html += `<tr style="height:38px;cursor:pointer" onclick="openUCModal(${proj.id})" title="Click for full detail">`;
+
+    // Label cell
+    html += `<td style="padding:0 12px;border-right:1px solid var(--border);background:var(--bg-card);position:sticky;left:0;z-index:5">
+      <div style="display:flex;align-items:center;gap:8px;white-space:nowrap;overflow:hidden">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusColor};flex-shrink:0"></span>
+        <span style="font-size:12px;font-weight:500;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis">${proj.name}</span>
+      </div>
+    </td>`;
+
+    // Build a map of which cells are covered by which phase
+    // Each phase has s (start, fractional month 0-12) and e (end, fractional month 0-12)
+    const cells = new Array(12).fill(null).map(() => ({ phases: [], spanStart: false, spanWidth: 0 }));
+
+    // For rendering, we'll draw SVG-like inline divs positioned absolutely within a relative container
+    // Actually easier: render 12 cells, for each cell check which phases overlap
+    for (let col = 0; col < 12; col++) {
+      const colStart = col;
+      const colEnd = col + 1;
+      proj.phases.forEach(phase => {
+        const overlap = Math.min(phase.e, colEnd) - Math.max(phase.s, colStart);
+        if (overlap > 0.01) {
+          cells[col].phases.push({ ...phase, overlap });
+        }
+      });
+    }
+
+    for (let col = 0; col < 12; col++) {
+      const colStart = col;
+      const colEnd = col + 1;
+      const matchingPhases = cells[col].phases;
+      const bgColor = rowIdx % 2 === 1 ? 'rgba(255,255,255,0.01)' : 'transparent';
+
+      if (matchingPhases.length === 0) {
+        html += `<td style="background:${bgColor};border-right:1px solid var(--border-light)"></td>`;
+      } else {
+        // Build the content
+        let innerHtml = `<div style="display:flex;height:26px;align-items:stretch;gap:1px;padding:4px 1px">`;
+        matchingPhases.forEach(phase => {
+          const pctWidth = (phase.overlap / 1) * 100;
+          const typeClasses = { ad: 'phase-ad', build: 'phase-build', bench: 'phase-bench', handover: 'phase-handover', maint: 'phase-maint' };
+          innerHtml += `<div class="gantt-phase ${typeClasses[phase.type] || ''}" style="flex:${phase.overlap};min-width:${phase.overlap > 0.4 ? '20px' : '4px'};overflow:hidden" title="${phase.label}">${phase.overlap > 0.5 && matchingPhases.length === 1 ? `<span style="font-size:9px;font-weight:700;overflow:hidden;white-space:nowrap">${phase.label}</span>` : ''}</div>`;
+        });
+        innerHtml += `</div>`;
+        html += `<td style="background:${bgColor};border-right:1px solid var(--border-light);padding:0">${innerHtml}</td>`;
+      }
+    }
+
+    html += '</tr>';
+  });
+
+  // TBD rows
+  const tbdProjects = ['CDAO — MLOps Revamp (TBD)', 'RBS — CEM Classification (TBD)', 'CDAO — AI Governance (TBD)'];
+  tbdProjects.forEach((name, i) => {
+    html += `<tr style="height:38px;opacity:0.4">`;
+    html += `<td style="padding:0 12px;border-right:1px solid var(--border);background:var(--bg-card)">
+      <div style="display:flex;align-items:center;gap:8px;white-space:nowrap">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--border)"></span>
+        <span style="font-size:12px;font-style:italic;color:var(--text-muted)">${name}</span>
+      </div>
+    </td>`;
+    for (let col = 0; col < 12; col++) {
+      html += `<td style="border-right:1px solid var(--border-light)"><div style="height:6px;margin:14px 4px 0;background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 4px,transparent 4px,transparent 8px);border-radius:2px"></div></td>`;
+    }
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  wrapper.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', renderGantt);
+</script>
+</body>
+</html>

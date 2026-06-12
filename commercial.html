@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA × H2O.ai — Commercial</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-h2o">H2O.ai</div>
+    <div class="logo-cba">× Commonwealth Bank</div>
+    <div class="tier-badge">★ Tier 0 Partner</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="index.html"      class="nav-item"><span>⬡</span> Overview</a>
+    <a href="use-cases.html"  class="nav-item"><span>⚡</span> Use Cases</a>
+    <a href="delivery.html"   class="nav-item"><span>📅</span> Delivery</a>
+    <a href="commercial.html" class="nav-item active"><span>💰</span> Commercial</a>
+    <a href="team.html"       class="nav-item"><span>👥</span> Team</a>
+  </nav>
+  <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <header class="page-header">
+    <h1>Commercial Summary</h1>
+    <div class="header-right">
+      <span class="badge badge-gold">$100M Commitment</span>
+      <span class="badge badge-green">$34M Mapped</span>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- KPI STRIP -->
+    <div class="kpi-grid" style="margin-bottom:24px">
+      <div class="kpi-card" style="--accent-color:var(--h2o-blue)">
+        <div class="kpi-label">3-Year Commitment</div>
+        <div class="kpi-value">$100M</div>
+        <div class="kpi-sub">AUD minimum</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--green)">
+        <div class="kpi-label">Mapped TCV</div>
+        <div class="kpi-value">$34M</div>
+        <div class="kpi-sub">15 use cases</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--amber)">
+        <div class="kpi-label">Active/Near-Signed</div>
+        <div class="kpi-value">$25M</div>
+        <div class="kpi-sub">SOW execution</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--cba-gold)">
+        <div class="kpi-label">Platform Commitment</div>
+        <div class="kpi-value">$7.9M</div>
+        <div class="kpi-sub">Dec 2026 renewal</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--red)">
+        <div class="kpi-label">Gap to Fill</div>
+        <div class="kpi-value">$66M</div>
+        <div class="kpi-sub">70+ UC backlog</div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="grid-2 mb-24">
+
+      <!-- WATERFALL / COMMITMENT BREAKDOWN -->
+      <div class="card">
+        <div class="card-header">
+          <span>💰</span>
+          <div>
+            <div class="section-title">$100M Commitment Breakdown</div>
+            <div class="section-subtitle">How the commitment maps to current SOWs</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="margin-bottom:16px">
+            <div class="progress-label"><span>Mapped TCV ($34M)</span><span class="text-blue">34%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:34%;background:var(--h2o-blue)"></div></div>
+          </div>
+          <div style="margin-bottom:16px">
+            <div class="progress-label"><span>Active Pipeline ($25M)</span><span class="text-green">25%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:25%;background:var(--green)"></div></div>
+          </div>
+          <div style="margin-bottom:16px">
+            <div class="progress-label"><span>Platform Commitment ($7.9M)</span><span class="text-gold">8%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:8%;background:var(--cba-gold)"></div></div>
+          </div>
+          <div style="margin-bottom:0">
+            <div class="progress-label"><span>Remaining Gap ($66M)</span><span class="text-red">66%</span></div>
+            <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:66%;background:var(--red);opacity:0.5"></div></div>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:var(--h2o-blue-dim);border:1px solid rgba(0,115,255,0.2);border-radius:var(--radius-sm)">
+            <div style="font-size:12px;color:var(--text-secondary)">Strategy to close gap: 70+ use case backlog to be scoped. Additional streams: Meeting AI, CISO Agent, Guardrails/Evals/MRM for CDAO.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TCV BY USE CASE BAR -->
+      <div class="card">
+        <div class="card-header">
+          <span>📊</span>
+          <div class="section-title">TCV by Use Case</div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height:240px"><canvas id="tcvByUCChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USAGE MODEL / COST STRUCTURE -->
+    <div class="grid-2 mb-24">
+      <div class="card">
+        <div class="card-header">
+          <span>📈</span>
+          <div>
+            <div class="section-title">Annual Recurring Revenue Model</div>
+            <div class="section-subtitle">Build + Maintenance + Usage (Sample Use Cases)</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height:200px"><canvas id="arrModelChart"></canvas></div>
+          <div style="margin-top:12px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+            <div style="font-size:11px;color:var(--text-secondary)">Model: Build cost (Year 1) + 20% maintenance per year + usage fees per quarter. Usage grows 10% per quarter assumption.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LICENSE VS SERVICES -->
+      <div class="card">
+        <div class="card-header">
+          <span>⚖️</span>
+          <div>
+            <div class="section-title">Revenue Mix (All UCs)</div>
+            <div class="section-subtitle">License-heavy commercial model</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:20px;align-items:center">
+            <div style="position:relative;width:160px;height:160px">
+              <canvas id="revMixChart"></canvas>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
+                <div style="font-size:15px;font-weight:800;color:var(--h2o-blue)">80/20</div>
+                <div style="font-size:9px;color:var(--text-muted)">Split</div>
+              </div>
+            </div>
+            <div style="flex:1">
+              <div class="stat-row"><span class="stat-key">Total License TCV</span><span class="stat-val text-blue" id="total-lic">—</span></div>
+              <div class="stat-row"><span class="stat-key">Total Services TCV</span><span class="stat-val" id="total-svc">—</span></div>
+              <div class="stat-row"><span class="stat-key">Avg License %</span><span class="stat-val">~80%</span></div>
+              <div class="stat-row"><span class="stat-key">Avg Services %</span><span class="stat-val">~20%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TCV TABLE BY USE CASE -->
+    <div class="card mb-24">
+      <div class="card-header">
+        <span>📋</span>
+        <div>
+          <div class="section-title">Full Use Case Commercial Table</div>
+          <div class="section-subtitle">Click any row to view use case detail</div>
+        </div>
+      </div>
+      <table class="data-table" id="commercial-table">
+        <thead>
+          <tr>
+            <th onclick="sortTable('commercial-table',0)">#</th>
+            <th onclick="sortTable('commercial-table',1)">Use Case</th>
+            <th onclick="sortTable('commercial-table',2)">BU</th>
+            <th onclick="sortTable('commercial-table',3)">Sizing</th>
+            <th onclick="sortTable('commercial-table',4)" class="text-right">TCV Total</th>
+            <th onclick="sortTable('commercial-table',5)" class="text-right">Licenses</th>
+            <th onclick="sortTable('commercial-table',6)" class="text-right">Services</th>
+            <th onclick="sortTable('commercial-table',7)" class="text-right">Build Cost</th>
+            <th onclick="sortTable('commercial-table',8)">Est. ROI</th>
+            <th onclick="sortTable('commercial-table',9)">Status</th>
+          </tr>
+        </thead>
+        <tbody id="commercial-tbody"></tbody>
+        <tfoot>
+          <tr style="background:var(--bg-input);font-weight:700">
+            <td colspan="4" style="padding:12px 14px;border-top:1px solid var(--border);color:var(--text-secondary)">TOTAL</td>
+            <td class="text-right" style="padding:12px 14px;border-top:1px solid var(--border)" id="foot-tcv">—</td>
+            <td class="text-right" style="padding:12px 14px;border-top:1px solid var(--border)" id="foot-lic">—</td>
+            <td class="text-right" style="padding:12px 14px;border-top:1px solid var(--border)" id="foot-svc">—</td>
+            <td class="text-right" style="padding:12px 14px;border-top:1px solid var(--border)" id="foot-build">—</td>
+            <td colspan="2" style="border-top:1px solid var(--border)"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- SIZING REFERENCE + PRICING STRUCTURE -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><span>📏</span><div class="section-title">Sizing Reference Table</div></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Size</th><th>Duration</th><th class="text-right">TCV / UC</th><th class="text-right">Licenses</th><th class="text-right">Services</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>${sizingBadge_inline('M')}</td><td>6 months</td><td class="text-right font-bold text-blue">$1M</td><td class="text-right">$0.8M</td><td class="text-right">$0.2M</td></tr>
+            <tr><td>${sizingBadge_inline('L')}</td><td>6–9 months</td><td class="text-right font-bold text-blue">$2M</td><td class="text-right">$1.6M</td><td class="text-right">$0.4M</td></tr>
+            <tr><td>${sizingBadge_inline('L SLM')}</td><td>up to 9 months</td><td class="text-right font-bold text-blue">$1M</td><td class="text-right">$0.6M</td><td class="text-right">$0.4M</td></tr>
+            <tr><td>${sizingBadge_inline('XL')}</td><td>up to 9–12 months</td><td class="text-right font-bold text-blue">$3M</td><td class="text-right">$2.4M</td><td class="text-right">$0.6M</td></tr>
+            <tr><td>${sizingBadge_inline('XXL')}</td><td>up to 12 months</td><td class="text-right font-bold text-blue">$5M</td><td class="text-right">$4M</td><td class="text-right">$1M</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header"><span>🧾</span><div class="section-title">CBA Pricing Requirements</div></div>
+        <div class="card-body">
+          <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">CBA Finance requires each use case broken down into 5 components:</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--h2o-blue-dim);color:var(--h2o-blue);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+              <div><div style="font-size:13px;font-weight:600">Out-of-the-Box H2O Products</div><div style="font-size:11px;color:var(--text-muted)">Platform, HAIC, Studio, existing H2O components</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--h2o-blue-dim);color:var(--h2o-blue);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+              <div><div style="font-size:13px;font-weight:600">Platform/Product Uplift & Enhancements</div><div style="font-size:11px;color:var(--text-muted)">Custom product builds, new capability development</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--h2o-blue-dim);color:var(--h2o-blue);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+              <div><div style="font-size:13px;font-weight:600">Customisation — CBA Specific Tools</div><div style="font-size:11px;color:var(--text-muted)">Use-case specific customisation, Studio, Drift</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--h2o-blue-dim);color:var(--h2o-blue);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
+              <div><div style="font-size:13px;font-weight:600">Full Customisation / Services (FDE)</div><div style="font-size:11px;color:var(--text-muted)">Kaggle Grandmaster + FDE team engagement time</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:10px;background:var(--bg-input);border-radius:var(--radius-sm)">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--h2o-blue-dim);color:var(--h2o-blue);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</div>
+              <div><div style="font-size:13px;font-weight:600">Maintenance (Ongoing)</div><div style="font-size:11px;color:var(--text-muted)">~20% of build cost per year, starting Year 2</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal"><div id="modal-body-content"></div></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script>
+'use strict';
+
+// Inline helper since we can't use template literals in static HTML
+function sizingBadge_inline(s) {
+  const map = { 'XXL':'sizing-xxl','XL':'sizing-xl','L':'sizing-l','L SLM':'sizing-lslm','M':'sizing-m' };
+  return `<span class="badge ${map[s]||'badge-blue'}">${s}</span>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Totals
+  const ucs = CBA_DATA.usecases;
+  const totalTCV  = ucs.reduce((s,u) => s+u.tcv, 0);
+  const totalLic  = ucs.reduce((s,u) => s+u.tcv_license, 0);
+  const totalSvc  = ucs.reduce((s,u) => s+u.tcv_services, 0);
+  const totalBuild= ucs.reduce((s,u) => s+(u.build_cost||0), 0);
+
+  document.getElementById('total-lic').textContent = '$' + totalLic.toFixed(1) + 'M';
+  document.getElementById('total-svc').textContent = '$' + totalSvc.toFixed(1) + 'M';
+  document.getElementById('foot-tcv').textContent  = '$' + totalTCV.toFixed(0) + 'M AUD';
+  document.getElementById('foot-lic').textContent  = '$' + totalLic.toFixed(1) + 'M';
+  document.getElementById('foot-svc').textContent  = '$' + totalSvc.toFixed(1) + 'M';
+  document.getElementById('foot-build').textContent = fmtAUD(totalBuild);
+
+  // TCV by UC Bar
+  const sorted = [...ucs].sort((a,b) => b.tcv - a.tcv);
+  new Chart(document.getElementById('tcvByUCChart'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(u => u.shortName),
+      datasets: [
+        { label: 'License', data: sorted.map(u => u.tcv_license), backgroundColor: '#0073FF', borderRadius: 3 },
+        { label: 'Services', data: sorted.map(u => u.tcv_services), backgroundColor: '#FFD23F', borderRadius: 3 },
+      ]
+    },
+    options: {
+      plugins: {
+        legend: { labels: { color: '#8b949e', font: { size: 11 } } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}M` } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#484f58', font: { size: 9 }, maxRotation: 50 } },
+        y: { stacked: true, grid: { color: '#21262d' }, ticks: { color: '#8b949e', callback: v => '$'+v+'M' } }
+      }
+    }
+  });
+
+  // ARR model
+  const y1 = [500000, 600000, 400000];
+  const y2 = [3000000, 1800000, 1200000];
+  const labels = ['SLM Factory', 'Predictive Hedging', 'BB Compliance SLM'];
+  new Chart(document.getElementById('arrModelChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Year 1 Revenue', data: y1.map(v => v/1e6), backgroundColor: '#0073FF66', borderColor: '#0073FF', borderWidth: 1, borderRadius: 4 },
+        { label: 'Year 2 Revenue', data: y2.map(v => v/1e6), backgroundColor: '#22c55e66', borderColor: '#22c55e', borderWidth: 1, borderRadius: 4 },
+      ]
+    },
+    options: {
+      plugins: { legend: { labels: { color: '#8b949e', font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` $${(ctx.raw).toFixed(1)}M` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 11 } } },
+        y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', callback: v => '$'+v+'M' } }
+      }
+    }
+  });
+
+  // Rev Mix
+  new Chart(document.getElementById('revMixChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Licenses (80%)', 'Services (20%)'],
+      datasets: [{ data: [totalLic, totalSvc], backgroundColor: ['#0073FF','#FFD23F'], borderWidth: 0 }]
+    },
+    options: {
+      cutout: '65%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw.toFixed(1)}M` } } }
+    }
+  });
+
+  // Commercial table
+  const tbody = document.getElementById('commercial-tbody');
+  sorted.forEach(uc => {
+    const statusDot = { green: '#22c55e', amber: '#f59e0b', red: '#ef4444' }[uc.status];
+    const tr = document.createElement('tr');
+    const roiCell = uc.roi ? `<span class="badge badge-gold" style="font-size:11px">${uc.roi}</span>` : '<span class="text-muted">—</span>';
+    tr.innerHTML = `
+      <td class="font-mono text-muted" style="font-size:12px">${uc.id}</td>
+      <td><span class="font-bold" style="font-size:13px">${uc.shortName}</span><br><span class="text-muted" style="font-size:11px">${uc.category}</span></td>
+      <td style="font-size:12px;white-space:nowrap;color:var(--text-secondary)">${uc.bu.split(' ').slice(0,2).join(' ')}</td>
+      <td>${sizingBadge(uc.sizing)}</td>
+      <td class="text-right"><span class="font-bold text-blue">$${uc.tcv}M</span></td>
+      <td class="text-right" style="color:var(--h2o-blue)">$${uc.tcv_license}M</td>
+      <td class="text-right" style="color:var(--text-secondary)">$${uc.tcv_services}M</td>
+      <td class="text-right" style="font-size:12px">${uc.build_cost ? fmtAUD(uc.build_cost) : '—'}</td>
+      <td>${roiCell}</td>
+      <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusDot};margin-right:5px"></span><span style="font-size:11px">${uc.statusLabel}</span></td>
+    `;
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => openUCModal(uc.id));
+    tbody.appendChild(tr);
+  });
+
+});
+</script>
+</body>
+</html>

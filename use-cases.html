@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA × H2O.ai — Use Cases</title>
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-h2o">H2O.ai</div>
+    <div class="logo-cba">× Commonwealth Bank</div>
+    <div class="tier-badge">★ Tier 0 Partner</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="index.html"      class="nav-item"><span>⬡</span> Overview</a>
+    <a href="use-cases.html"  class="nav-item active"><span>⚡</span> Use Cases</a>
+    <a href="delivery.html"   class="nav-item"><span>📅</span> Delivery</a>
+    <a href="commercial.html" class="nav-item"><span>💰</span> Commercial</a>
+    <a href="team.html"       class="nav-item"><span>👥</span> Team</a>
+  </nav>
+  <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <header class="page-header">
+    <h1>Use Cases</h1>
+    <div class="header-right">
+      <span id="uc-count-badge" class="badge badge-blue">15 use cases</span>
+      <span class="badge badge-gold">$34M TCV</span>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- STAT STRIP -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:24px">
+      <div class="kpi-card" style="--accent-color:var(--h2o-blue)">
+        <div class="kpi-label">Total UCs</div>
+        <div class="kpi-value">15</div>
+        <div class="kpi-sub">Across 6 BUs</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--green)">
+        <div class="kpi-label">🟢 Green</div>
+        <div class="kpi-value" id="kpi-green">—</div>
+        <div class="kpi-sub">Active / In Progress</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--amber)">
+        <div class="kpi-label">🟡 Amber</div>
+        <div class="kpi-value" id="kpi-amber">—</div>
+        <div class="kpi-sub">Discussions</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--red)">
+        <div class="kpi-label">🔴 On Hold</div>
+        <div class="kpi-value" id="kpi-red">—</div>
+        <div class="kpi-sub">Red / Paused</div>
+      </div>
+      <div class="kpi-card" style="--accent-color:var(--cba-gold)">
+        <div class="kpi-label">Total TCV</div>
+        <div class="kpi-value" id="kpi-tcv">—</div>
+        <div class="kpi-sub">AUD Mapped</div>
+      </div>
+    </div>
+
+    <!-- TABS: CARDS / TABLE -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="cards">Card View</button>
+        <button class="tab-btn" data-tab="table">Table View</button>
+        <button class="tab-btn" data-tab="chart">By Category</button>
+      </div>
+
+      <!-- FILTER BAR (shared) -->
+      <div class="filter-bar">
+        <input type="text" id="search" class="search-input" placeholder="Search use cases, BU, stakeholders…">
+        <select id="filter-status" class="filter-select">
+          <option value="">All Status</option>
+          <option value="green">🟢 Green</option>
+          <option value="amber">🟡 Amber</option>
+          <option value="red">🔴 Red</option>
+        </select>
+        <select id="filter-bu" class="filter-select">
+          <option value="">All BUs</option>
+        </select>
+        <select id="filter-sizing" class="filter-select">
+          <option value="">All Sizes</option>
+          <option value="XXL">XXL</option>
+          <option value="XL">XL</option>
+          <option value="L">L</option>
+          <option value="L SLM">L SLM</option>
+          <option value="M">M</option>
+        </select>
+        <button id="reset-filters" class="filter-btn">Reset</button>
+      </div>
+
+      <!-- CARDS TAB -->
+      <div class="tab-pane active" data-pane="cards">
+        <div id="uc-cards" class="grid-auto"></div>
+        <div id="no-results" class="empty-state hidden">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <p>No use cases match your filters.</p>
+        </div>
+      </div>
+
+      <!-- TABLE TAB -->
+      <div class="tab-pane" data-pane="table">
+        <div class="card" style="overflow:hidden">
+          <table class="data-table" id="uc-main-table">
+            <thead>
+              <tr>
+                <th onclick="sortTable('uc-main-table',0)" style="cursor:pointer">#</th>
+                <th onclick="sortTable('uc-main-table',1)" style="cursor:pointer">Use Case</th>
+                <th onclick="sortTable('uc-main-table',2)" style="cursor:pointer">BU</th>
+                <th onclick="sortTable('uc-main-table',3)" style="cursor:pointer">Sizing</th>
+                <th onclick="sortTable('uc-main-table',4)" style="cursor:pointer">TCV</th>
+                <th onclick="sortTable('uc-main-table',5)" style="cursor:pointer">Status</th>
+                <th onclick="sortTable('uc-main-table',6)" style="cursor:pointer">Phase</th>
+                <th onclick="sortTable('uc-main-table',7)" style="cursor:pointer">H2O Lead</th>
+                <th>SOW</th>
+              </tr>
+            </thead>
+            <tbody id="uc-table-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CHART TAB -->
+      <div class="tab-pane" data-pane="chart">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span style="font-size:14px">📊</span><div class="section-title">TCV by Category</div></div>
+            <div class="card-body">
+              <div class="chart-container" style="height:240px"><canvas id="chartByCategory"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span style="font-size:14px">📊</span><div class="section-title">Use Cases by Sizing</div></div>
+            <div class="card-body">
+              <div class="chart-container" style="height:240px"><canvas id="chartBySizing"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span style="font-size:14px">📊</span><div class="section-title">License vs Services Split</div></div>
+            <div class="card-body">
+              <div class="chart-container" style="height:240px"><canvas id="chartLicVsSvc"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span style="font-size:14px">📊</span><div class="section-title">ROI by Use Case (Est.)</div></div>
+            <div class="card-body">
+              <div class="chart-container" style="height:240px"><canvas id="chartROI"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tabs-container -->
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal">
+    <div id="modal-body-content"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script>
+'use strict';
+
+let filteredUCs = [...CBA_DATA.usecases];
+
+function getFilters() {
+  return {
+    search: document.getElementById('search').value.toLowerCase().trim(),
+    status: document.getElementById('filter-status').value,
+    bu:     document.getElementById('filter-bu').value,
+    sizing: document.getElementById('filter-sizing').value,
+  };
+}
+
+function applyFilters() {
+  const f = getFilters();
+  filteredUCs = CBA_DATA.usecases.filter(uc => {
+    if (f.search) {
+      const haystack = [uc.name, uc.bu, uc.description, uc.category, ...uc.stakeholders_cba, ...uc.h2o_team].join(' ').toLowerCase();
+      if (!haystack.includes(f.search)) return false;
+    }
+    if (f.status && uc.status !== f.status) return false;
+    if (f.bu && uc.bu !== f.bu) return false;
+    if (f.sizing && uc.sizing !== f.sizing) return false;
+    return true;
+  });
+  renderCards();
+  renderTableRows();
+  updateCountBadge();
+}
+
+function renderCards() {
+  const container = document.getElementById('uc-cards');
+  const noResults = document.getElementById('no-results');
+  container.innerHTML = '';
+
+  if (filteredUCs.length === 0) {
+    noResults.classList.remove('hidden');
+    return;
+  }
+  noResults.classList.add('hidden');
+
+  filteredUCs.forEach(uc => {
+    const statusColor = { green: 'var(--green)', amber: 'var(--amber)', red: 'var(--red)' }[uc.status];
+    const card = document.createElement('div');
+    card.className = 'uc-card fade-in';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Open details for ${uc.name}`);
+    card.innerHTML = `
+      <div class="uc-status-bar" style="background:${statusColor}"></div>
+      <div style="padding-left:8px">
+        <div class="uc-header">
+          <div class="uc-name">${uc.name}</div>
+          <div style="flex-shrink:0">${sizingBadge(uc.sizing)}</div>
+        </div>
+        <div class="uc-meta">
+          ${statusBadge(uc.status, uc.statusLabel)}
+          <span class="badge badge-blue" style="font-size:11px">${uc.bu.split(' ').slice(0,2).join(' ')}</span>
+          <span class="badge badge-blue" style="font-size:11px">${uc.category}</span>
+        </div>
+        <div class="uc-description">${uc.description}</div>
+        <div class="uc-footer">
+          <div>
+            <div class="tcv-value">$${uc.tcv}M</div>
+            <div class="tcv-label">TCV AUD</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;color:var(--text-muted)">${uc.duration}</div>
+            <div style="font-size:11px;color:var(--text-secondary)">${uc.h2o_lead}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => openUCModal(uc.id));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openUCModal(uc.id); });
+    container.appendChild(card);
+  });
+}
+
+function renderTableRows() {
+  const tbody = document.getElementById('uc-table-tbody');
+  tbody.innerHTML = '';
+  filteredUCs.forEach(uc => {
+    const tr = document.createElement('tr');
+    const statusDot = { green: '#22c55e', amber: '#f59e0b', red: '#ef4444' }[uc.status];
+    const sowCell = uc.sow_link
+      ? `<a href="${uc.sow_link}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:3px 8px" onclick="event.stopPropagation()">↗ SOW</a>`
+      : '<span class="text-muted" style="font-size:11px">—</span>';
+    tr.innerHTML = `
+      <td class="font-mono" style="font-size:12px;color:var(--text-muted)">${uc.id}</td>
+      <td><span style="font-weight:600">${uc.shortName}</span></td>
+      <td style="font-size:12px;color:var(--text-secondary);white-space:nowrap">${uc.bu}</td>
+      <td>${sizingBadge(uc.sizing)}</td>
+      <td class="text-right"><span class="text-blue font-bold">$${uc.tcv}M</span></td>
+      <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${statusDot};margin-right:5px"></span>${uc.statusLabel}</td>
+      <td><span class="badge badge-blue" style="font-size:11px">${uc.phase}</span></td>
+      <td style="font-size:12px">${uc.h2o_lead}</td>
+      <td>${sowCell}</td>
+    `;
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => openUCModal(uc.id));
+    tbody.appendChild(tr);
+  });
+}
+
+function updateCountBadge() {
+  document.getElementById('uc-count-badge').textContent = `${filteredUCs.length} use cases`;
+  const totalTCV = filteredUCs.reduce((s, u) => s + u.tcv, 0);
+  // Update KPI cards from full dataset
+  const all = CBA_DATA.usecases;
+  document.getElementById('kpi-green').textContent = all.filter(u => u.status==='green').length;
+  document.getElementById('kpi-amber').textContent = all.filter(u => u.status==='amber').length;
+  document.getElementById('kpi-red').textContent   = all.filter(u => u.status==='red').length;
+  document.getElementById('kpi-tcv').textContent   = '$' + all.reduce((s,u)=>s+u.tcv,0) + 'M';
+}
+
+// Populate BU filter
+function populateBUFilter() {
+  const bus = [...new Set(CBA_DATA.usecases.map(u => u.bu))].sort();
+  const sel = document.getElementById('filter-bu');
+  bus.forEach(bu => {
+    const opt = document.createElement('option');
+    opt.value = bu;
+    opt.textContent = bu;
+    sel.appendChild(opt);
+  });
+}
+
+// Charts (category tab)
+function renderCategoryCharts() {
+  // TCV by Category
+  const catTCV = {};
+  CBA_DATA.usecases.forEach(u => { catTCV[u.category] = (catTCV[u.category] || 0) + u.tcv; });
+  const catColors = ['#0073FF','#22c55e','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316'];
+  new Chart(document.getElementById('chartByCategory'), {
+    type: 'bar',
+    data: {
+      labels: Object.keys(catTCV),
+      datasets: [{ data: Object.values(catTCV), backgroundColor: catColors, borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` $${ctx.raw}M AUD` } } },
+      scales: {
+        x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', callback: v => '$'+v+'M' } },
+        y: { grid: { display: false }, ticks: { color: '#e6edf3', font: { size: 11 } } }
+      }
+    }
+  });
+
+  // Sizing distribution
+  const sizingCount = {};
+  CBA_DATA.usecases.forEach(u => { sizingCount[u.sizing] = (sizingCount[u.sizing] || 0) + 1; });
+  new Chart(document.getElementById('chartBySizing'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(sizingCount),
+      datasets: [{ data: Object.values(sizingCount), backgroundColor: ['#ef4444','#f59e0b','#3b82f6','#8b5cf6','#22c55e'], borderWidth: 0 }]
+    },
+    options: {
+      cutout: '55%',
+      plugins: { legend: { position: 'right', labels: { color: '#8b949e', font: { size: 11 }, padding: 12 } } },
+      animation: { duration: 800 }
+    }
+  });
+
+  // License vs Services
+  const totalLic = CBA_DATA.usecases.reduce((s, u) => s + u.tcv_license, 0);
+  const totalSvc = CBA_DATA.usecases.reduce((s, u) => s + u.tcv_services, 0);
+  new Chart(document.getElementById('chartLicVsSvc'), {
+    type: 'bar',
+    data: {
+      labels: CBA_DATA.usecases.map(u => u.shortName),
+      datasets: [
+        { label: 'License', data: CBA_DATA.usecases.map(u => u.tcv_license), backgroundColor: '#0073FF', borderRadius: 3 },
+        { label: 'Services', data: CBA_DATA.usecases.map(u => u.tcv_services), backgroundColor: '#FFD23F', borderRadius: 3 },
+      ]
+    },
+    options: {
+      plugins: { legend: { labels: { color: '#8b949e', font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}M` } } },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: '#484f58', font: { size: 9 }, maxRotation: 45 } },
+        y: { stacked: true, grid: { color: '#21262d' }, ticks: { color: '#8b949e', callback: v => '$'+v+'M' } }
+      }
+    }
+  });
+
+  // ROI estimates
+  const roiData = CBA_DATA.usecases.filter(u => u.roi).map(u => ({
+    name: u.shortName,
+    roi: parseInt(u.roi.replace(/[^0-9]/g, ''))
+  })).sort((a,b) => b.roi - a.roi);
+
+  new Chart(document.getElementById('chartROI'), {
+    type: 'bar',
+    data: {
+      labels: roiData.map(r => r.name),
+      datasets: [{ data: roiData.map(r => r.roi), backgroundColor: '#22c55e', borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` $${ctx.raw}M estimated ROI` } } },
+      scales: {
+        x: { grid: { color: '#21262d' }, ticks: { color: '#8b949e', callback: v => '$'+v+'M' } },
+        y: { grid: { display: false }, ticks: { color: '#e6edf3', font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// Tabs init
+function initTabsLocal() {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panes = document.querySelectorAll('.tab-pane');
+  let chartsRendered = false;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+      document.querySelector(`[data-pane="${target}"]`).classList.add('active');
+      if (target === 'chart' && !chartsRendered) {
+        chartsRendered = true;
+        setTimeout(renderCategoryCharts, 50);
+      }
+    });
+  });
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  populateBUFilter();
+  renderCards();
+  renderTableRows();
+  updateCountBadge();
+  initTabsLocal();
+
+  const debouncedFilter = debounce(applyFilters, 180);
+  document.getElementById('search').addEventListener('input', debouncedFilter);
+  document.getElementById('filter-status').addEventListener('change', applyFilters);
+  document.getElementById('filter-bu').addEventListener('change', applyFilters);
+  document.getElementById('filter-sizing').addEventListener('change', applyFilters);
+  document.getElementById('reset-filters').addEventListener('click', () => {
+    document.getElementById('search').value = '';
+    document.getElementById('filter-status').value = '';
+    document.getElementById('filter-bu').value = '';
+    document.getElementById('filter-sizing').value = '';
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>
