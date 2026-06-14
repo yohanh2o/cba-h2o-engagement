@@ -597,7 +597,7 @@
         <option value="red">🔴 Red</option>
       </select>
       <button class="btn-sm btn-export" onclick="exportProgress()">⬇ Export JSON</button>
-      <button class="btn-sm btn-danger" onclick="confirmReset()">�: Reset All</button>
+      <button class="btn-sm btn-danger" onclick="confirmReset()">↺ Reset All</button>
     </div>
 
     <!-- PROJECT CARDS -->
@@ -605,13 +605,14 @@
 
   </div>
 </div>
+
 <script src="js/data.js"></script>
 <script>
-/* ── CONSTANTS ────────────────────────────────────────────────────────*/
+/* ── CONSTANTS ──────────────────────────────────────────────────────── */
 const LS_KEY = 'CBA_PROGRESS';
 const MONTHS  = ["Jul '26","Aug '26","Sep '26","Oct '26","Nov '26","Dec '26",
                  "Jan '27","Feb '27","Mar '27","Apr '27","May '27","Jun '27"];
-const PHASEQ�= [
+const PHASES  = [
   "Discovery","Scoping","A&D","Build","Benchmarking",
   "SOW Drafting","On Hold","Paused","Active Discovery","Live","Handover","Monitoring"
 ];
@@ -669,14 +670,14 @@ function buildGantt(ucId) {
   const total = 12;
   let bars = tl.phases.map(ph => {
     const left  = (ph.s / total * 100).toFixed(2);
-    const width = ((ph.e - ph.s) / total * 100).toFixed(2);
+    const width = (\ph.e - ph.s) / total * 100).toFixed(2);
     const cls   = PHASE_COLORS[ph.type] || 'gp-build';
     return `<div class="gantt-phase ${cls}" style="left:${left}%;width:${width}%;position:absolute" title="${ph.label}">${parseFloat(width) > 7 ? ph.label : ''}</div>`;
   }).join('');
   const months = MONTHS.map(m => `<div class="gantt-month">${m.replace(" '2","<br>'2")}</div>`).join('');
   return `
     <div class="gantt-track">${bars}</div>
-    <div class="gantt-months">${mon73�ths}</div>
+    <div class="gantt-months">${months}</div>
   `;
 }
 
