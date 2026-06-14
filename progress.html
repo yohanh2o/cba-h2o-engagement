@@ -377,6 +377,95 @@
       border: 1px solid var(--border);
     }
 
+    /* RAG dot on KPI cards */
+    .prog-kpi { position: relative; cursor: default; overflow: visible; }
+    .kpi-rag-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+      box-shadow: 0 0 6px currentColor;
+      flex-shrink: 0;
+    }
+    .kpi-header-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    /* Hover tooltip / popover */
+    .kpi-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 240px;
+      max-width: 320px;
+      background: #1c2230;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      z-index: 200;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease);
+      transform: translateX(-50%) translateY(-4px);
+    }
+    .prog-kpi:hover .kpi-popover {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    /* arrow */
+    .kpi-popover::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid var(--border);
+    }
+    .kpi-popover::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid #1c2230;
+    }
+    .kpi-pop-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .kpi-pop-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 11px;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .kpi-pop-item:last-child { border-bottom: none; }
+    .kpi-pop-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .kpi-pop-meta { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+    .kpi-pop-tcv  { font-weight: 700; color: var(--cba-gold); font-size: 10px; }
+    .kpi-pop-phase { font-size: 10px; color: var(--text-muted); background: var(--bg-input);
+                     padding: 1px 6px; border-radius: 3px; }
+    .kpi-pop-empty { font-size: 11px; color: var(--text-muted); font-style: italic; text-align: center; padding: 6px 0; }
+
     /* Responsive */
     @media (max-width: 1100px) {
       .prog-summary { grid-template-columns: 1fr 1fr 1fr; }
@@ -421,25 +510,57 @@
 
     <!-- SUMMARY KPIs -->
     <div class="prog-summary" id="prog-summary">
+
       <div class="prog-kpi health-green">
-        <div class="prog-kpi-label">On Track</div>
+        <div class="kpi-header-row">
+          <span class="kpi-rag-dot" style="background:var(--green);color:var(--green)"></span>
+          <div class="prog-kpi-label">On Track</div>
+        </div>
         <div class="prog-kpi-value text-green" id="count-green">—</div>
-        <div class="prog-kpi-sub">Green status</div>
+        <div class="prog-kpi-sub">Green status — hover to preview</div>
+        <div class="kpi-popover" id="pop-green">
+          <div class="kpi-pop-title">🟢 On Track projects</div>
+          <div id="pop-green-list"></div>
+        </div>
       </div>
+
       <div class="prog-kpi health-amber">
-        <div class="prog-kpi-label">At Risk</div>
+        <div class="kpi-header-row">
+          <span class="kpi-rag-dot" style="background:var(--amber);color:var(--amber)"></span>
+          <div class="prog-kpi-label">At Risk</div>
+        </div>
         <div class="prog-kpi-value" style="color:var(--amber)" id="count-amber">—</div>
-        <div class="prog-kpi-sub">Amber status</div>
+        <div class="prog-kpi-sub">Amber status — hover to preview</div>
+        <div class="kpi-popover" id="pop-amber">
+          <div class="kpi-pop-title">🟡 At Risk projects</div>
+          <div id="pop-amber-list"></div>
+        </div>
       </div>
+
       <div class="prog-kpi health-red">
-        <div class="prog-kpi-label">Blocked</div>
+        <div class="kpi-header-row">
+          <span class="kpi-rag-dot" style="background:var(--red);color:var(--red)"></span>
+          <div class="prog-kpi-label">Blocked</div>
+        </div>
         <div class="prog-kpi-value text-red" id="count-red">—</div>
-        <div class="prog-kpi-sub">Red / on hold</div>
+        <div class="prog-kpi-sub">Red / on hold — hover to preview</div>
+        <div class="kpi-popover" id="pot-red">
+          <div class="kpi-pop-title">🔴 Blocked / on hold projects</div>
+          <div id="pop-red-list"></div>
+        </div>
       </div>
+
       <div class="prog-kpi" style="border-color:var(--h2o-blue)">
-        <div class="prog-kpi-label">TCV at Risk</div>
+        <div class="kpi-header-row">
+          <span class="kpi-rag-dot" style="background:var(--h2o-blue);color:var(--h2o-blue)"></span>
+          <div class="prog-kpi-label">TCV at Risk</div>
+        </div>
         <div class="prog-kpi-value text-blue" id="tcv-at-risk">—</div>
-        <div class="prog-kpi-sub">Amber + Red UCs ($M)</div>
+        <div class="prog-kpi-sub">Amber + Red UCs — hover to preview</div>
+        <div class="kpi-popover" id="pop-tcv">
+          <div class="kpi-pop-title">💰 TCV exposed (Amber + Red)</div>
+          <div id="pop-tcv-list"></div>
+        </div>
       </div>
       <div class="health-bar-card">
         <div class="health-bar-title">Overall Portfolio Health</div>
@@ -476,7 +597,7 @@
         <option value="red">🔴 Red</option>
       </select>
       <button class="btn-sm btn-export" onclick="exportProgress()">⬇ Export JSON</button>
-      <button class="btn-sm btn-danger" onclick="confirmReset()">↺ Reset All</button>
+      <button class="btn-sm btn-danger" onclick="confirmReset()">�: Reset All</button>
     </div>
 
     <!-- PROJECT CARDS -->
@@ -484,14 +605,13 @@
 
   </div>
 </div>
-
 <script src="js/data.js"></script>
 <script>
-/* ── CONSTANTS ──────────────────────────────────────────────────────── */
+/* ── CONSTANTS ────────────────────────────────────────────────────────*/
 const LS_KEY = 'CBA_PROGRESS';
 const MONTHS  = ["Jul '26","Aug '26","Sep '26","Oct '26","Nov '26","Dec '26",
                  "Jan '27","Feb '27","Mar '27","Apr '27","May '27","Jun '27"];
-const PHASES  = [
+const PHASEQ�= [
   "Discovery","Scoping","A&D","Build","Benchmarking",
   "SOW Drafting","On Hold","Paused","Active Discovery","Live","Handover","Monitoring"
 ];
@@ -556,7 +676,7 @@ function buildGantt(ucId) {
   const months = MONTHS.map(m => `<div class="gantt-month">${m.replace(" '2","<br>'2")}</div>`).join('');
   return `
     <div class="gantt-track">${bars}</div>
-    <div class="gantt-months">${months}</div>
+    <div class="gantt-months">${mon73�ths}</div>
   `;
 }
 
@@ -742,16 +862,34 @@ function applyFilters() {
   document.getElementById('prog-total-badge').textContent = `${visible} / ${CBA_DATA.usecases.length} projects`;
 }
 
+/* ── POPOVER LIST HTML ──────────────────────────────────────────────── */
+function buildPopoverList(ucs, showTcv) {
+  if (!ucs.length) return `<div class="kpi-pop-empty">None currently</div>`;
+  return ucs.map(uc => {
+    const ph = effectivePhase(uc);
+    return `<div class="kpi-pop-item">
+      <span class="kpi-pop-name" title="${uc.name}">${uc.shortName || uc.name}</span>
+      <span class="kpi-pop-meta">
+        ${showTcv ? `<span class="kpi-pop-tcv">$${uc.tcv}M</span>` : ''}
+        <span class="kpi-pop-phase">${ph}</span>
+      </span>
+    </div>`;
+  }).join('');
+}
+
 /* ── SUMMARY COUNTS ─────────────────────────────────────────────────── */
 function updateSummary() {
   const ovs = getOverrides();
   let green = 0, amber = 0, red = 0, tcvRisk = 0;
+  const greenUCs = [], amberUCs = [], redUCs = [];
+
   CBA_DATA.usecases.forEach(uc => {
     const h = (ovs[uc.id] && ovs[uc.id].health) ? ovs[uc.id].health : uc.status;
-    if (h === 'green') green++;
-    else if (h === 'amber') { amber++; tcvRisk += (uc.tcv||0); }
-    else if (h === 'red')   { red++;   tcvRisk += (uc.tcv||0); }
+    if (h === 'green') { green++; greenUCs.push(uc); }
+    else if (h === 'amber') { amber++; tcvRisk += (uc.tcv||0); amberUCs.push(uc); }
+    else if (h === 'red')   { red++;   tcvRisk += (uc.tcv||0); redUCs.push(uc);   }
   });
+
   const total = CBA_DATA.usecases.length;
   document.getElementById('count-green').textContent = green;
   document.getElementById('count-amber').textContent = amber;
@@ -763,6 +901,12 @@ function updateSummary() {
   document.getElementById('hleg-green').textContent = `${green} Green`;
   document.getElementById('hleg-amber').textContent = `${amber} Amber`;
   document.getElementById('hleg-red').textContent   = `${red} Red`;
+
+  // Populate popovers
+  document.getElementById('pop-green-list').innerHTML = buildPopoverList(greenUCs, false);
+  document.getElementById('pop-amber-list').innerHTML = buildPopoverList(amberUCs, true);
+  document.getElementById('pop-red-list').innerHTML   = buildPopoverList(redUCs,   true);
+  document.getElementById('pop-tcv-list').innerHTML   = buildPopoverList([...amberUCs, ...redUCs], true);
 
   // last updated
   const times = Object.values(ovs).map(o => o.updated).filter(Boolean).sort();
