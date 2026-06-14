@@ -490,7 +490,7 @@
     <a href="commercial.html" class="nav-item"><span>💰</span> Commercial</a>
     <a href="team.html"       class="nav-item"><span>👥</span> Team</a>
     <a href="recruitment.html" class="nav-item"><span>🎯</span> Recruitment</a>
-    <a href="progress.html"  class="nav-item active"><span>📊</span> Progress</a>
+    <a href="progress.html"  class="nav-item active"><span>🍊</span> Progress</a>
   </nav>
   <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
 </aside>
@@ -544,7 +544,7 @@
         </div>
         <div class="prog-kpi-value text-red" id="count-red">—</div>
         <div class="prog-kpi-sub">Red / on hold — hover to preview</div>
-        <div class="kpi-popover" id="pot-red">
+        <div class="kpi-popover" id="pop-red">
           <div class="kpi-pop-title">🔴 Blocked / on hold projects</div>
           <div id="pop-red-list"></div>
         </div>
@@ -670,7 +670,7 @@ function buildGantt(ucId) {
   const total = 12;
   let bars = tl.phases.map(ph => {
     const left  = (ph.s / total * 100).toFixed(2);
-    const width = (\ph.e - ph.s) / total * 100).toFixed(2);
+    const width = ((ph.e - ph.s) / total * 100).toFixed(2);
     const cls   = PHASE_COLORS[ph.type] || 'gp-build';
     return `<div class="gantt-phase ${cls}" style="left:${left}%;width:${width}%;position:absolute" title="${ph.label}">${parseFloat(width) > 7 ? ph.label : ''}</div>`;
   }).join('');
