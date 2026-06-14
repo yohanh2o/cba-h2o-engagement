@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA × H2O.ai — Project Progress</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* ── PROGRESS PAGE STYLES ─────────────────────────────────────────── */
+
+    /* Summary KPI row */
+    .prog-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .prog-kpi {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .prog-kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .6px; }
+    .prog-kpi-value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .prog-kpi-sub   { font-size: 11px; color: var(--text-secondary); }
+    .prog-kpi.health-green { border-color: var(--green); }
+    .prog-kpi.health-amber { border-color: var(--amber); }
+    .prog-kpi.health-red   { border-color: var(--red);   }
+
+    /* Health distribution bar */
+    .health-bar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .health-bar-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .6px; }
+    .health-bar-track {
+      display: flex;
+      height: 14px;
+      border-radius: 7px;
+      overflow: hidden;
+      background: var(--bg-input);
+    }
+    .health-bar-seg { transition: width .4s var(--ease); }
+    .health-bar-seg.seg-green { background: var(--green); }
+    .health-bar-seg.seg-amber { background: var(--amber); }
+    .health-bar-seg.seg-red   { background: var(--red);   }
+    .health-bar-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .hbl { display: flex; align-items: center; gap: 5px; }
+    .hbl-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Filter / Search bar */
+    .filter-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-bar input[type="text"] {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      padding: 7px 12px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color var(--dur-fast) var(--ease);
+    }
+    .filter-bar input[type="text"]::placeholder { color: var(--text-muted); }
+    .filter-bar input[type="text"]:focus { border-color: var(--h2o-blue); }
+    .filter-bar select {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      padding: 7px 10px;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-bar select:focus { border-color: var(--h2o-blue); }
+    .filter-label { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+    .btn-sm {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      padding: 7px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .btn-sm:hover { background: var(--border); color: var(--text-primary); }
+    .btn-sm.btn-danger:hover { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+    .btn-sm.btn-export { background: var(--h2o-blue-dim); border-color: var(--h2o-blue); color: var(--h2o-blue); }
+
+    /* Project card */
+    .proj-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+      transition: border-color var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease);
+      overflow: hidden;
+    }
+    .proj-card.health-green { border-left-color: var(--green); }
+    .proj-card.health-amber { border-left-color: var(--amber); }
+    .proj-card.health-red   { border-left-color: var(--red);   }
+    .proj-card.health-grey  { border-left-color: var(--text-muted); }
+    .proj-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+    /* Card header */
+    .pc-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px 10px;
+      flex-wrap: wrap;
+    }
+    .pc-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 28px;
+      background: var(--bg-input);
+      border-radius: 4px;
+      padding: 2px 6px;
+      text-align: center;
+    }
+    .pc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      flex: 1;
+      min-width: 180px;
+    }
+    .pc-badges { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .badge-bu {
+      background: var(--h2o-blue-dim);
+      color: var(--h2o-blue);
+      border: 1px solid rgba(0,115,255,0.25);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .badge-cat {
+      background: rgba(139,92,246,0.12);
+      color: #8b5cf6;
+      border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .badge-size {
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .badge-size.s-m   { background:#22c55e22; color:#22c55e; border:1px solid #22c55e44; }
+    .badge-size.s-l   { background:#3b82f622; color:#3b82f6; border:1px solid #3b82f644; }
+    .badge-size.s-xl  { background:#f59e0b22; color:#f59e0b; border:1px solid #f59e0b44; }
+    .badge-size.s-xxl { background:#ef444422; color:#ef4444; border:1px solid #ef444444; }
+    .badge-size.s-l-slm { background:#8b5cf622; color:#8b5cf6; border:1px solid #8b5cf644; }
+    .badge-tcv {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--cba-gold);
+    }
+    .pc-lead {
+      font-size: 11px;
+      color: var(--text-muted);
+      width: 100%;
+      padding: 0 18px 0 58px;
+      margin-top: -4px;
+      margin-bottom: 4px;
+    }
+
+    /* Gantt */
+    .pc-gantt {
+      padding: 6px 18px 0;
+    }
+    .gantt-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    .gantt-track {
+      position: relative;
+      height: 22px;
+      background: var(--bg-input);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .gantt-phase {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: .3px;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: opacity .2s;
+    }
+    .gantt-phase:last-child { border-right: none; }
+    .gp-ad       { background: #3b82f6; }
+    .gp-build    { background: #22c55e; }
+    .gp-bench    { background: #f59e0b; }
+    .gp-handover { background: #8b5cf6; }
+    .gp-maint    { background: #6b7280; }
+    .gantt-months {
+      display: flex;
+      margin-top: 4px;
+      padding-bottom: 8px;
+    }
+    .gantt-month {
+      flex: 1;
+      font-size: 9px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Controls row */
+    .pc-controls {
+      display: grid;
+      grid-template-columns: auto auto 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px 18px 14px;
+      border-top: 1px solid var(--border-light);
+      margin-top: 6px;
+    }
+
+    /* Health dropdown */
+    .health-select-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ctrl-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .health-select {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 28px 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 10px;
+      min-width: 130px;
+      transition: border-color var(--dur-fast), background-color var(--dur-fast);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+    }
+    .health-select.hs-green {
+      background-color: rgba(34,197,94,0.15);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .health-select.hs-amber {
+      background-color: rgba(245,158,11,0.15);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .health-select.hs-red {
+      background-color: rgba(239,68,68,0.15);
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .health-select option { background: var(--bg-card); color: var(--text-primary); }
+
+    /* Phase select */
+    .phase-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      padding: 6px 28px 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+      min-width: 160px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 10px;
+    }
+    .phase-select:focus { border-color: var(--h2o-blue); }
+    .phase-select option { background: var(--bg-card); }
+
+    /* Textareas */
+    .pc-textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      padding: 7px 10px;
+      font-size: 12px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 58px;
+      width: 100%;
+      outline: none;
+      line-height: 1.5;
+      transition: border-color var(--dur-fast) var(--ease);
+    }
+    .pc-textarea:focus { border-color: var(--h2o-blue); }
+    .pc-textarea::placeholder { color: var(--text-muted); font-style: italic; }
+
+    /* Save indicator */
+    .save-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 18px 10px;
+      gap: 12px;
+    }
+    .save-indicator {
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: color var(--dur-med);
+    }
+    .save-indicator.saved { color: var(--green); }
+    .save-indicator.saving { color: var(--amber); }
+
+    /* Empty state */
+    .no-results {
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+      font-size: 14px;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .prog-summary { grid-template-columns: 1fr 1fr 1fr; }
+      .pc-controls  { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-h2o">H2O.ai</div>
+    <div class="logo-cba">× Commonwealth Bank</div>
+    <div class="tier-badge">★ Tier 0 Partner</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Navigation</div>
+    <a href="index.html"      class="nav-item"><span>⬡</span> Overview</a>
+    <a href="use-cases.html"  class="nav-item"><span>⚡</span> Use Cases</a>
+    <a href="delivery.html"   class="nav-item"><span>📅</span> Delivery</a>
+    <a href="commercial.html" class="nav-item"><span>💰</span> Commercial</a>
+    <a href="team.html"       class="nav-item"><span>👥</span> Team</a>
+    <a href="recruitment.html" class="nav-item"><span>🎯</span> Recruitment</a>
+    <a href="progress.html"  class="nav-item active"><span>📊</span> Progress</a>
+  </nav>
+  <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+  <header class="page-header">
+    <h1>Project Progress Tracker</h1>
+    <div class="header-right">
+      <span class="live-badge"><span class="live-dot"></span> Live</span>
+      <span class="badge badge-gold">FY27</span>
+      <span id="prog-total-badge" class="badge badge-blue">15 projects</span>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- SUMMARY KPIs -->
+    <div class="prog-summary" id="prog-summary">
+      <div class="prog-kpi health-green">
+        <div class="prog-kpi-label">On Track</div>
+        <div class="prog-kpi-value text-green" id="count-green">—</div>
+        <div class="prog-kpi-sub">Green status</div>
+      </div>
+      <div class="prog-kpi health-amber">
+        <div class="prog-kpi-label">At Risk</div>
+        <div class="prog-kpi-value" style="color:var(--amber)" id="count-amber">—</div>
+        <div class="prog-kpi-sub">Amber status</div>
+      </div>
+      <div class="prog-kpi health-red">
+        <div class="prog-kpi-label">Blocked</div>
+        <div class="prog-kpi-value text-red" id="count-red">—</div>
+        <div class="prog-kpi-sub">Red / on hold</div>
+      </div>
+      <div class="prog-kpi" style="border-color:var(--h2o-blue)">
+        <div class="prog-kpi-label">TCV at Risk</div>
+        <div class="prog-kpi-value text-blue" id="tcv-at-risk">—</div>
+        <div class="prog-kpi-sub">Amber + Red UCs ($M)</div>
+      </div>
+      <div class="health-bar-card">
+        <div class="health-bar-title">Overall Portfolio Health</div>
+        <div class="health-bar-track">
+          <div class="health-bar-seg seg-green" id="hbar-green" style="width:0%"></div>
+          <div class="health-bar-seg seg-amber" id="hbar-amber" style="width:0%"></div>
+          <div class="health-bar-seg seg-red"   id="hbar-red"   style="width:0%"></div>
+        </div>
+        <div class="health-bar-legend">
+          <div class="hbl"><div class="hbl-dot" style="background:var(--green)"></div><span id="hleg-green">0 Green</span></div>
+          <div class="hbl"><div class="hbl-dot" style="background:var(--amber)"></div><span id="hleg-amber">0 Amber</span></div>
+          <div class="hbl"><div class="hbl-dot" style="background:var(--red)"></div><span id="hleg-red">0 Red</span></div>
+          <div class="hbl" style="margin-left:auto"><span style="color:var(--text-muted);font-size:10px" id="hleg-updated">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <input type="text" id="search-input" placeholder="🔍  Search projects…" oninput="applyFilters()">
+      <span class="filter-label">BU</span>
+      <select id="filter-bu" onchange="applyFilters()">
+        <option value="">All</option>
+      </select>
+      <span class="filter-label">Category</span>
+      <select id="filter-cat" onchange="applyFilters()">
+        <option value="">All</option>
+      </select>
+      <span class="filter-label">Health</span>
+      <select id="filter-health" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="green">🟢 Green</option>
+        <option value="amber">🟡 Amber</option>
+        <option value="red">🔴 Red</option>
+      </select>
+      <button class="btn-sm btn-export" onclick="exportProgress()">⬇ Export JSON</button>
+      <button class="btn-sm btn-danger" onclick="confirmReset()">↺ Reset All</button>
+    </div>
+
+    <!-- PROJECT CARDS -->
+    <div id="proj-list"></div>
+
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script>
+/* ── CONSTANTS ──────────────────────────────────────────────────────── */
+const LS_KEY = 'CBA_PROGRESS';
+const MONTHS  = ["Jul '26","Aug '26","Sep '26","Oct '26","Nov '26","Dec '26",
+                 "Jan '27","Feb '27","Mar '27","Apr '27","May '27","Jun '27"];
+const PHASES  = [
+  "Discovery","Scoping","A&D","Build","Benchmarking",
+  "SOW Drafting","On Hold","Paused","Active Discovery","Live","Handover","Monitoring"
+];
+const PHASE_COLORS = {
+  ad:'gp-ad', build:'gp-build', bench:'gp-bench',
+  handover:'gp-handover', maint:'gp-maint'
+};
+
+/* ── LOCALSTORAGE ───────────────────────────────────────────────────── */
+function getOverrides() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function saveOverrides(obj) {
+  localStorage.setItem(LS_KEY, JSON.stringify(obj));
+}
+function getOverride(ucId) {
+  return getOverrides()[ucId] || {};
+}
+function patchOverride(ucId, patch) {
+  const all = getOverrides();
+  all[ucId] = Object.assign({}, all[ucId] || {}, patch, { updated: new Date().toISOString() });
+  saveOverrides(all);
+}
+
+/* ── SIZING BADGE CLASS ─────────────────────────────────────────────── */
+function sizingClass(s) {
+  const m = (s||'').toUpperCase();
+  if (m === 'M') return 's-m';
+  if (m === 'L SLM') return 's-l-slm';
+  if (m === 'L') return 's-l';
+  if (m === 'XL') return 's-xl';
+  if (m.includes('XX')) return 's-xxl';
+  return 's-l';
+}
+
+/* ── EFFECTIVE STATUS ───────────────────────────────────────────────── */
+function effectiveStatus(uc) {
+  const ov = getOverride(uc.id);
+  return ov.health || uc.status || 'amber';
+}
+function effectivePhase(uc) {
+  const ov = getOverride(uc.id);
+  return ov.phase || uc.phase || 'Discovery';
+}
+
+/* ── GANTT RENDER ───────────────────────────────────────────────────── */
+function buildGantt(ucId) {
+  const tl = (CBA_DATA.timeline.projects || []).find(p => p.id === ucId);
+  if (!tl || !tl.phases || !tl.phases.length) {
+    return `<div class="gantt-track" style="display:flex;align-items:center;justify-content:center">
+              <span style="font-size:10px;color:var(--text-muted)">Timeline TBD</span>
+            </div>`;
+  }
+  const total = 12;
+  let bars = tl.phases.map(ph => {
+    const left  = (ph.s / total * 100).toFixed(2);
+    const width = ((ph.e - ph.s) / total * 100).toFixed(2);
+    const cls   = PHASE_COLORS[ph.type] || 'gp-build';
+    return `<div class="gantt-phase ${cls}" style="left:${left}%;width:${width}%;position:absolute" title="${ph.label}">${parseFloat(width) > 7 ? ph.label : ''}</div>`;
+  }).join('');
+  const months = MONTHS.map(m => `<div class="gantt-month">${m.replace(" '2","<br>'2")}</div>`).join('');
+  return `
+    <div class="gantt-track">${bars}</div>
+    <div class="gantt-months">${months}</div>
+  `;
+}
+
+/* ── BUILD PHASE OPTION HTML ──────────────────────────────────────────*/
+function phaseOptions(current) {
+  return PHASES.map(p => `<option value="${p}"${p===current?' selected':''}>${p}</option>`).join('');
+}
+
+/* ── STATUS LABEL ───────────────────────────────────────────────────── */
+function statusLabel(s) {
+  if (s === 'green') return '🟢 Green — On Track';
+  if (s === 'amber') return '🟡 Amber — At Risk';
+  if (s === 'red')   return '🔴 Red — Blocked';
+  return '⬜ Unknown';
+}
+
+/* ── RELATIVE TIME ──────────────────────────────────────────────────── */
+function relativeTime(iso) {
+  if (!iso) return 'Never updated';
+  const d = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (d < 60) return 'Just now';
+  if (d < 3600) return `${Math.floor(d/60)}m ago`;
+  if (d < 86400) return `${Math.floor(d/3600)}h ago`;
+  const days = Math.floor(d/86400);
+  return days === 1 ? 'Yesterday' : `${days}d ago`;
+}
+
+/* ── RENDER ONE PROJECT CARD ────────────────────────────────────────── */
+function renderCard(uc, idx) {
+  const ov      = getOverride(uc.id);
+  const health  = ov.health || uc.status;
+  const phase   = ov.phase  || uc.phase || 'Discovery';
+  const impediments = ov.impediments || '';
+  const comments    = ov.comments    || '';
+  const updated     = ov.updated     || null;
+  const tcvLabel    = uc.tcv ? `$${uc.tcv}M` : '—';
+  const leadStr     = uc.h2o_lead ? `Lead: ${uc.h2o_lead}` : '';
+  const teamExtra   = (uc.h2o_team||[]).filter(t => t !== uc.h2o_lead && t !== '-' && t !== '').slice(0,3).join(', ');
+  const leadFull    = [leadStr, teamExtra].filter(Boolean).join(' · ');
+
+  return `
+  <div class="proj-card health-${health}" id="pc-${uc.id}" data-uc-id="${uc.id}" data-health="${health}"
+       data-bu="${uc.bu}" data-cat="${uc.category}" data-name="${(uc.name||'').toLowerCase()}">
+
+    <!-- HEADER -->
+    <div class="pc-header">
+      <div class="pc-num">#${String(uc.id).padStart(2,'0')}</div>
+      <div class="pc-name">${uc.name}</div>
+      <div class="pc-badges">
+        <span class="badge-bu">${uc.bu}</span>
+        <span class="badge-cat">${uc.category}</span>
+        <span class="badge-size ${sizingClass(uc.sizing)}">${uc.sizing}</span>
+        <span class="badge-tcv">${tcvLabel}</span>
+      </div>
+    </div>
+    ${leadFull ? `<div class="pc-lead">${leadFull}</div>` : ''}
+
+    <!-- GANTT -->
+    <div class="pc-gantt">
+      <div class="gantt-label">FY27 Delivery Timeline</div>
+      ${buildGantt(uc.id)}
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="pc-controls">
+
+      <!-- Health -->
+      <div class="health-select-wrap">
+        <div class="ctrl-label">Health</div>
+        <select class="health-select hs-${health}" data-uc="${uc.id}"
+                onchange="onHealthChange(this)">
+          <option value="green"${health==='green'?' selected':''}>🟢 Green — On Track</option>
+          <option value="amber"${health==='amber'?' selected':''}>🟡 Amber — At Risk</option>
+          <option value="red"${health==='red'?' selected':''}>🔴 Red — Blocked</option>
+        </select>
+      </div>
+
+      <!-- Phase -->
+      <div class="health-select-wrap">
+        <div class="ctrl-label">Phase</div>
+        <select class="phase-select" data-uc="${uc.id}" onchange="onPhaseChange(this)">
+          ${phaseOptions(phase)}
+        </select>
+      </div>
+
+      <!-- Impediments -->
+      <div>
+        <div class="ctrl-label">⚠ Impediments</div>
+        <textarea class="pc-textarea" data-uc="${uc.id}" data-field="impediments"
+          placeholder="Describe blockers, risks, or dependencies…"
+          oninput="onTextChange(this)">${impediments}</textarea>
+      </div>
+
+      <!-- Comments -->
+      <div>
+        <div class="ctrl-label">💬 Comments &amp; Next Steps</div>
+        <textarea class="pc-textarea" data-uc="${uc.id}" data-field="comments"
+          placeholder="Progress notes, decisions, actions…"
+          oninput="onTextChange(this)">${comments}</textarea>
+      </div>
+
+    </div>
+
+    <!-- SAVE ROW -->
+    <div class="save-row">
+      <span class="save-indicator" id="si-${uc.id}">
+        ${updated ? `⬡ Last updated: ${relativeTime(updated)}` : '⬡ Not yet updated'}
+      </span>
+    </div>
+
+  </div>`;
+}
+
+/* ── EVENT HANDLERS ─────────────────────────────────────────────────── */
+let debounceTimers = {};
+
+function onHealthChange(sel) {
+  const ucId  = parseInt(sel.dataset.uc);
+  const val   = sel.value;
+  patchOverride(ucId, { health: val });
+  // Update card border
+  const card = document.getElementById(`pc-${ucId}`);
+  card.className = card.className.replace(/health-\w+/, `health-${val}`);
+  card.dataset.health = val;
+  // Update select styling
+  sel.className = `health-select hs-${val}`;
+  flashSaved(ucId);
+  updateSummary();
+}
+
+function onPhaseChange(sel) {
+  const ucId = parseInt(sel.dataset.uc);
+  patchOverride(ucId, { phase: sel.value });
+  flashSaved(ucId);
+}
+
+function onTextChange(ta) {
+  const ucId  = parseInt(ta.dataset.uc);
+  const field = ta.dataset.field;
+  clearTimeout(debounceTimers[`${ucId}-${field}`]);
+  const si = document.getElementById(`si-${ucId}`);
+  if (si) { si.className = 'save-indicator saving'; si.textContent = '⬡ Saving…'; }
+  debounceTimers[`${ucId}-${field}`] = setTimeout(() => {
+    patchOverride(ucId, { [field]: ta.value });
+    flashSaved(ucId);
+  }, 600);
+}
+
+function flashSaved(ucId) {
+  const si = document.getElementById(`si-${ucId}`);
+  if (!si) return;
+  si.className = 'save-indicator saved';
+  si.textContent = '✓ Saved — ' + relativeTime(new Date().toISOString());
+  setTimeout(() => {
+    si.className = 'save-indicator';
+    si.textContent = '⬡ Last updated: just now';
+  }, 2000);
+}
+
+/* ── FILTERS ────────────────────────────────────────────────────────── */
+function applyFilters() {
+  const q      = (document.getElementById('search-input').value || '').toLowerCase();
+  const bu     = document.getElementById('filter-bu').value;
+  const cat    = document.getElementById('filter-cat').value;
+  const health = document.getElementById('filter-health').value;
+
+  let visible = 0;
+  document.querySelectorAll('.proj-card').forEach(card => {
+    const name   = card.dataset.name || '';
+    const cardBu = card.dataset.bu   || '';
+    const cardCat= card.dataset.cat  || '';
+    const cardH  = card.dataset.health|| '';
+    const show = (!q   || name.includes(q))
+              && (!bu  || cardBu  === bu)
+              && (!cat || cardCat === cat)
+              && (!health || cardH === health);
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  const noRes = document.getElementById('no-results');
+  if (noRes) noRes.style.display = visible ? 'none' : '';
+  document.getElementById('prog-total-badge').textContent = `${visible} / ${CBA_DATA.usecases.length} projects`;
+}
+
+/* ── SUMMARY COUNTS ─────────────────────────────────────────────────── */
+function updateSummary() {
+  const ovs = getOverrides();
+  let green = 0, amber = 0, red = 0, tcvRisk = 0;
+  CBA_DATA.usecases.forEach(uc => {
+    const h = (ovs[uc.id] && ovs[uc.id].health) ? ovs[uc.id].health : uc.status;
+    if (h === 'green') green++;
+    else if (h === 'amber') { amber++; tcvRisk += (uc.tcv||0); }
+    else if (h === 'red')   { red++;   tcvRisk += (uc.tcv||0); }
+  });
+  const total = CBA_DATA.usecases.length;
+  document.getElementById('count-green').textContent = green;
+  document.getElementById('count-amber').textContent = amber;
+  document.getElementById('count-red').textContent   = red;
+  document.getElementById('tcv-at-risk').textContent = `$${tcvRisk}M`;
+  document.getElementById('hbar-green').style.width = (green/total*100).toFixed(1)+'%';
+  document.getElementById('hbar-amber').style.width = (amber/total*100).toFixed(1)+'%';
+  document.getElementById('hbar-red').style.width   = (red/total*100).toFixed(1)+'%';
+  document.getElementById('hleg-green').textContent = `${green} Green`;
+  document.getElementById('hleg-amber').textContent = `${amber} Amber`;
+  document.getElementById('hleg-red').textContent   = `${red} Red`;
+
+  // last updated
+  const times = Object.values(ovs).map(o => o.updated).filter(Boolean).sort();
+  const lastT = times.length ? 'Last edit: ' + relativeTime(times[times.length-1]) : 'No edits yet';
+  document.getElementById('hleg-updated').textContent = lastT;
+}
+
+/* ── EXPORT ─────────────────────────────────────────────────────────── */
+function exportProgress() {
+  const ovs = getOverrides();
+  const rows = CBA_DATA.usecases.map(uc => {
+    const ov = ovs[uc.id] || {};
+    return {
+      id: uc.id,
+      name: uc.name,
+      bu: uc.bu,
+      category: uc.category,
+      sizing: uc.sizing,
+      tcv: uc.tcv,
+      health: ov.health || uc.status,
+      phase: ov.phase  || uc.phase,
+      impediments: ov.impediments || '',
+      comments: ov.comments || '',
+      updated: ov.updated || null,
+    };
+  });
+  const blob = new Blob([JSON.stringify({ exported: new Date().toISOString(), projects: rows }, null, 2)],
+    { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `CBA-H2O-Progress-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+/* ── RESET ──────────────────────────────────────────────────────────── */
+function confirmReset() {
+  if (!confirm('Reset all progress overrides? This will clear all health, phase, impediment and comment edits.')) return;
+  localStorage.removeItem(LS_KEY);
+  renderAll();
+  updateSummary();
+}
+
+/* ── POPULATE FILTER DROPDOWNS ──────────────────────────────────────── */
+function populateFilters() {
+  const bus  = [...new Set(CBA_DATA.usecases.map(u => u.bu))].sort();
+  const cats = [...new Set(CBA_DATA.usecases.map(u => u.category))].sort();
+  const buSel  = document.getElementById('filter-bu');
+  const catSel = document.getElementById('filter-cat');
+  bus.forEach(b  => buSel.insertAdjacentHTML('beforeend',  `<option value="${b}">${b}</option>`));
+  cats.forEach(c => catSel.insertAdjacentHTML('beforeend', `<option value="${c}">${c}</option>`));
+}
+
+/* ── RENDER ALL ─────────────────────────────────────────────────────── */
+function renderAll() {
+  const list = document.getElementById('proj-list');
+  list.innerHTML = CBA_DATA.usecases
+    .map((uc, i) => renderCard(uc, i))
+    .join('') + `<div id="no-results" class="no-results" style="display:none">No projects match your filters.</div>`;
+}
+
+/* ── INIT ────────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  populateFilters();
+  renderAll();
+  updateSummary();
+});
+</script>
+</body>
+</html>

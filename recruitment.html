@@ -196,6 +196,7 @@
     <a href="commercial.html"  class="nav-item"><span>💰</span> Commercial</a>
     <a href="team.html"        class="nav-item"><span>👥</span> Team</a>
     <a href="recruitment.html" class="nav-item active"><span>🎯</span> Recruitment</a>
+    <a href="progress.html"   class="nav-item"><span>📊</span> Progress</a>
   </nav>
   <div class="sidebar-footer">FY27 Engagement Plan<br>Updated June 2026</div>
 </aside>
@@ -441,6 +442,20 @@
 </main>
 
 <script src="js/data.js"></script>
+<script>
+// Apply progress page health overrides
+(function() {
+  try {
+    var ov = JSON.parse(localStorage.getItem('CBA_PROGRESS') || '{}');
+    (CBA_DATA.usecases || []).forEach(function(uc) {
+      if (ov[uc.id]) {
+        if (ov[uc.id].health) uc.status = ov[uc.id].health;
+        if (ov[uc.id].phase)  uc.phase  = ov[uc.id].phase;
+      }
+    });
+  } catch(e) {}
+})();
+</script>
 <script>
 // ── State ────────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'cba_recruitment_v1';
