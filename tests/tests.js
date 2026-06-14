@@ -911,6 +911,101 @@ describe('Suite 10 — Timeline / Gantt Data', () => {
 
 });
 
+// ── SUITE 11: PROGRESS PAGE DATA ─────────────────────────────────────────
+describe('Suite 11 — Progress Page Data', () => {
+
+  it('all UCs have a valid status for RAG health (green/amber/red)', () => {
+    const valid = new Set(['green', 'amber', 'red']);
+    CBA_DATA.usecases.forEach(uc => {
+      if (!valid.has(uc.status))
+        throw new Error(`UC id=${uc.id} has invalid status "${uc.status}"`);
+    });
+  });
+
+  it('all UCs have a non-empty phase string', () => {
+    CBA_DATA.usecases.forEach(uc => {
+      if (typeof uc.phase !== 'string' || uc.phase.trim().length === 0)
+        throw new Error(`UC id=${uc.id} missing phase`);
+    });
+  });
+
+  it('all UCs have sizing, category, and bu fields', () => {
+    CBA_DATA.usecases.forEach(uc => {
+      ['sizing', 'category', 'bu'].forEach(f => {
+        if (!uc[f]) throw new Error(`UC id=${uc.id} missing field "${f}"`);
+      });
+    });
+  });
+
+  it('all UCs have a numeric tcv > 0', () => {
+    CBA_DATA.usecases.forEach(uc => {
+      if (typeof uc.tcv !== 'number' || uc.tcv <= 0)
+        throw new Error(`UC id=${uc.id} has invalid tcv: ${uc.tcv}`);
+    });
+  });
+
+  it('all UCs have a description string', () => {
+    CBA_DATA.usecases.forEach(uc => {
+      if (typeof uc.description !== 'string' || uc.description.length < 10)
+        throw new Error(`UC id=${uc.id} missing or short description`);
+    });
+  });
+
+  it('progress health override simulation works', () => {
+    // Simulate patching a UC status from an override object
+    const fakeOverride = { 1: { health: 'red' }, 2: { health: 'green' } };
+    const patched = CBA_DATA.usecases.map(uc => {
+      const ov = fakeOverride[uc.id];
+      return Object.assign({}, uc, ov && ov.health ? { status: ov.health } : {});
+    });
+    const uc1 = patched.find(u => u.id === 1);
+    const uc2 = patched.find(u => u.id === 2);
+    if (!uc1 || uc1.status !== 'red')  throw new Error('Override patch for UC 1 failed');
+    if (!uc2 || uc2.status !== 'green') throw new Error('Override patch for UC 2 failed');
+  });
+
+  it('progress summary counts (green+amber+red) = 15', () => {
+    const green = CBA_DATA.usecases.filter(u => u.status === 'green').length;
+    const amber = CBA_DATA.usecases.filter(u => u.status === 'amber').length;
+    const red   = CBA_DATA.usecases.filter(u => u.status === 'red').length;
+    if (green + amber + red !== 15)
+      throw new Error(`Progress count mismatch: ${green}+${amber}+${red} != 15`);
+  });
+
+  it('each UC id is unique and numeric', () => {
+    const ids = CBA_DATA.usecases.map(u => u.id);
+    const unique = new Set(ids);
+    if (unique.size !== ids.length)
+      throw new Error(`Duplicate UC ids found: ${ids}`);
+    ids.forEach(id => {
+      if (typeof id !== 'number')
+        throw new Error(`Non-numeric UC id: ${id}`);
+    });
+  });
+
+  it('gantt timeline exists for at least 10 of 15 UCs', () => {
+    const tlIds = new Set((CBA_DATA.timeline.projects || []).map(p => p.id));
+    const covered = CBA_DATA.usecases.filter(u => tlIds.has(u.id)).length;
+    if (covered < 10)
+      throw new Error(`Only ${covered}/15 UCs have Gantt timeline entries (need ≥10)`);
+  });
+
+  it('all UC categories are non-empty strings', () => {
+    CBA_DATA.usecases.forEach(uc => {
+      if (typeof uc.category !== 'string' || !uc.category.trim())
+        throw new Error(`UC id=${uc.id} has empty category`);
+    });
+  });
+
+  it('recruitment summary total equals roles array length', () => {
+    const rec = CBA_DATA.recruitment;
+    if (!rec || !rec.roles) throw new Error('recruitment data missing');
+    if (rec.summary.total !== rec.roles.length)
+      throw new Error(`recruitment summary.total (${rec.summary.total}) != roles.length (${rec.roles.length})`);
+  });
+
+});
+
 // ── FINAL REPORT ──────────────────────────────────────────────────────────
 console.log('\n' + '═'.repeat(55));
 console.log(` CBA Website Test Suite Results`);
